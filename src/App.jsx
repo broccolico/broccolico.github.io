@@ -1,7 +1,24 @@
 import { useEffect, useRef, useState } from 'react'
 import mark from '../assets/broccolico-mark.png'
 import discoB from '../assets/disco-b.png'
-import beat from '../assets/09-09-beat-g-minor.mp3'
+import dolpeBeatNo1 from '../assets/09-09-beat-g-minor.mp3'
+import dolpeBeatNo5 from '../assets/22-08 beat 5.mp3'
+import dolpeBeatNo10 from '../assets/30-08 BEAT 10.mp3'
+
+const beatTracks = [
+  {
+    src: dolpeBeatNo1,
+    label: 'Dolpe: Beat, No. 1 in G# Minor',
+  },
+  {
+    src: dolpeBeatNo5,
+    label: 'Dolpe: Beat, No. 5',
+  },
+  {
+    src: dolpeBeatNo10,
+    label: 'Dolpe: Beat, No. 10',
+  },
+]
 
 const SPOTIFY_ARTIST_URL = 'https://open.spotify.com/intl-pt/artist/5YDfo3roAlk7dhvOnNhICd?si=VCp5zmZKQWeRlq0pK_jdog'
 const links = [
@@ -30,14 +47,43 @@ function OutboundLink({ href, className, children, ...props }) {
 export default function App() {
   const [scrolled, setScrolled] = useState(false)
   const [beatPlaying, setBeatPlaying] = useState(false)
+  const [beatIndex, setBeatIndex] = useState(0)
+  const [footerOffset, setFooterOffset] = useState(0)
   const carouselRef = useRef(null)
   const beatAudioRef = useRef(null)
+  const footerRef = useRef(null)
+  const currentBeat = beatTracks[beatIndex] ?? null
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 80)
     handleScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    if (!beatPlaying) return
+    beatAudioRef.current?.play().catch(() => setBeatPlaying(false))
+  }, [beatIndex, beatPlaying])
+
+  useEffect(() => {
+    let animationFrame
+    const updateFooterOffset = () => {
+      if (animationFrame) return
+      animationFrame = window.requestAnimationFrame(() => {
+        const footerTop = footerRef.current?.getBoundingClientRect().top ?? window.innerHeight
+        setFooterOffset(Math.max(0, Math.round(window.innerHeight - footerTop)))
+        animationFrame = undefined
+      })
+    }
+    updateFooterOffset()
+    window.addEventListener('scroll', updateFooterOffset, { passive: true })
+    window.addEventListener('resize', updateFooterOffset)
+    return () => {
+      window.removeEventListener('scroll', updateFooterOffset)
+      window.removeEventListener('resize', updateFooterOffset)
+      if (animationFrame) window.cancelAnimationFrame(animationFrame)
+    }
   }, [])
 
   useEffect(() => {
@@ -106,15 +152,22 @@ SELO INDEPENDENTE CRIATIVO`, 'color: #72ff24; font: 700 12px/1.1 monospace;')
     } else audio.pause()
   }
 
-  const seekBeat = (seconds) => {
-    const audio = beatAudioRef.current
-    if (!audio) return
-    audio.currentTime = Math.max(0, Math.min(audio.duration || Infinity, audio.currentTime + seconds))
+  const changeBeat = (direction) => {
+    if (beatTracks.length === 0) return
+    if (beatTracks.length === 1) {
+      const audio = beatAudioRef.current
+      if (!audio) return
+      audio.currentTime = 0
+      audio.play().catch(() => setBeatPlaying(false))
+      return
+    }
+    setBeatPlaying(true)
+    setBeatIndex((index) => (index + direction + beatTracks.length) % beatTracks.length)
   }
 
   return <>
     <div className="noise" aria-hidden="true" />
-    <audio ref={beatAudioRef} src={beat} loop preload="metadata" onPlay={() => setBeatPlaying(true)} onPause={() => setBeatPlaying(false)} />
+    {currentBeat && <audio ref={beatAudioRef} src={currentBeat.src} autoPlay preload="metadata" onPlay={() => setBeatPlaying(true)} onPause={() => setBeatPlaying(false)} onEnded={() => changeBeat(1)} />}
     <header className={`site-header ${scrolled ? 'scrolled' : ''}`} id="topo">
       <a className="header-logo" href="#inicio" aria-label="BROCCOLICO — início">BROCCOLI CO<span>®</span></a>
       <nav aria-label="Navegação principal"><a className="nav-featured" href="#sobre">SOBRE</a><a href="#links">LINKS</a><a href="#sons">SONS</a><a href="#discografia">DISCOGRAFIA</a></nav>
@@ -158,10 +211,10 @@ SELO INDEPENDENTE CRIATIVO`, 'color: #72ff24; font: 700 12px/1.1 monospace;')
       </section>
     </main>
 
-    <footer><a href="#inicio">BROCCOLI CO<span>®</span></a><p>O BARULHO É NOSSO.</p><p>© {new Date().getFullYear()}</p></footer>
-    <div className="beat-player" aria-label="Player de beat">
-      <div className="beat-controls"><button type="button" onClick={() => seekBeat(-10)} aria-label="Voltar dez segundos">↶</button><button className="beat-play" type="button" onClick={toggleBeat} aria-label={beatPlaying ? 'Pausar beat' : 'Tocar beat'}>{beatPlaying ? 'Ⅱ' : '▶'}</button><button type="button" onClick={() => seekBeat(10)} aria-label="Avançar dez segundos">↷</button></div>
-      <p><span>BEAT LOOP //</span> 09-09 BEAT G#MINOR.mp3</p>
+    <footer ref={footerRef}><a href="#inicio">BROCCOLI CO<span>®</span></a><p>O BARULHO É NOSSO.</p><p>© {new Date().getFullYear()}</p></footer>
+    <div className="beat-player" style={{ bottom: `${footerOffset}px` }} aria-label="Player de beat">
+      <div className="beat-controls"><button type="button" onClick={() => changeBeat(-1)} aria-label="Beat anterior">↶</button><button className="beat-play" type="button" onClick={toggleBeat} aria-label={beatPlaying ? 'Pausar beat' : 'Tocar beat'}>{beatPlaying ? 'Ⅱ' : '▶'}</button><button type="button" onClick={() => changeBeat(1)} aria-label="Próximo beat">↷</button></div>
+      <p><span>BEAT {beatTracks.length > 1 ? `${beatIndex + 1}/${beatTracks.length}` : 'LOOP'} //</span> {currentBeat?.label ?? 'SEM BEAT'}</p>
     </div>
   </>
 }

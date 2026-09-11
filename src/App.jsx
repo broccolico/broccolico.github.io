@@ -67,6 +67,20 @@ export default function App() {
   }, [beatIndex, beatPlaying])
 
   useEffect(() => {
+    const startBeat = (event) => {
+      if (event?.target?.closest?.('.beat-player')) return
+      beatAudioRef.current?.play().catch(() => setBeatPlaying(false))
+    }
+    startBeat()
+    window.addEventListener('pointerdown', startBeat, { once: true })
+    window.addEventListener('keydown', startBeat, { once: true })
+    return () => {
+      window.removeEventListener('pointerdown', startBeat)
+      window.removeEventListener('keydown', startBeat)
+    }
+  }, [])
+
+  useEffect(() => {
     let animationFrame
     const updateFooterOffset = () => {
       if (animationFrame) return
@@ -170,14 +184,14 @@ SELO INDEPENDENTE CRIATIVO`, 'color: #72ff24; font: 700 12px/1.1 monospace;')
     {currentBeat && <audio ref={beatAudioRef} src={currentBeat.src} autoPlay preload="metadata" onPlay={() => setBeatPlaying(true)} onPause={() => setBeatPlaying(false)} onEnded={() => changeBeat(1)} />}
     <header className={`site-header ${scrolled ? 'scrolled' : ''}`} id="topo">
       <a className="header-logo" href="#inicio" aria-label="BROCCOLICO — início">BROCCOLI CO<span>®</span></a>
-      <nav aria-label="Navegação principal"><a className="nav-featured" href="#sobre">SOBRE</a><a href="#links">LINKS</a><a href="#sons">SONS</a><a href="#discografia">DISCOGRAFIA</a></nav>
+      <nav aria-label="Navegação principal"><a href="#sobre">SOBRE</a><a href="#links">LINKS</a><a className="nav-featured" href="#sons">SONS</a><a href="#discografia">DISCOGRAFIA</a></nav>
     </header>
 
     <main>
       <section className="hero" id="inicio" aria-labelledby="hero-title">
         <img className="hero-mark" src={mark} alt="Marca em stencil da BROCCOLIco" />
         <div className="hero-copy"><p className="eyebrow hero-pill hero-pill-top">UNDERGROUND DE ORIGEM</p><h1 id="hero-title">BROCCOLI CO.</h1><p className="hero-line hero-pill hero-pill-bottom">SELO INDEPENDENTE CRIATIVO</p></div>
-        <a className="scroll-cue" href="#links" aria-label="Ir para os links">DESCE <i /></a>
+        <a className="scroll-cue" href="#links" aria-label="Ir para os links">DESCE</a>
       </section>
 
       <section className="section about-section" id="sobre" aria-labelledby="about-title">

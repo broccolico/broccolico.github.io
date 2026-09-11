@@ -86,6 +86,7 @@ function OutboundLink({ href, className, children, ...props }) {
 
 export default function App() {
   const [scrolled, setScrolled] = useState(false)
+  const [activeNav, setActiveNav] = useState(null)
   const [beatPlaying, setBeatPlaying] = useState(false)
   const [beatIndex, setBeatIndex] = useState(0)
   const [footerOffset, setFooterOffset] = useState(0)
@@ -99,6 +100,27 @@ export default function App() {
     handleScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    const sectionIds = ['sobre', 'links', 'sons', 'discografia']
+    const updateActiveNav = () => {
+      const readingLine = window.innerHeight * .35
+      const activeId = sectionIds.find((id) => {
+        const section = document.getElementById(id)
+        if (!section) return false
+        const { top, bottom } = section.getBoundingClientRect()
+        return top <= readingLine && bottom > readingLine
+      }) ?? null
+      setActiveNav(activeId)
+    }
+    updateActiveNav()
+    window.addEventListener('scroll', updateActiveNav, { passive: true })
+    window.addEventListener('resize', updateActiveNav)
+    return () => {
+      window.removeEventListener('scroll', updateActiveNav)
+      window.removeEventListener('resize', updateActiveNav)
+    }
   }, [])
 
   useEffect(() => {
@@ -229,7 +251,7 @@ SELO INDEPENDENTE CRIATIVO`, 'color: #72ff24; font: 700 12px/1.1 monospace;')
     {currentBeat && <audio ref={beatAudioRef} src={currentBeat.src} autoPlay preload="metadata" onPlay={() => setBeatPlaying(true)} onPause={() => setBeatPlaying(false)} onEnded={() => changeBeat(1)} />}
     <header className={`site-header ${scrolled ? 'scrolled' : ''}`} id="topo">
       <a className="header-logo" href="#inicio" aria-label="BROCCOLICO — início">BROCCOLI CO<span>®</span></a>
-      <nav aria-label="Navegação principal"><a href="#sobre">SOBRE</a><a href="#links">LINKS</a><a className="nav-featured" href="#sons">SONS</a><a href="#discografia">DISCOGRAFIA</a></nav>
+      <nav aria-label="Navegação principal"><a className={activeNav === 'sobre' ? 'is-active' : undefined} href="#sobre" aria-current={activeNav === 'sobre' ? 'page' : undefined}>SOBRE</a><a className={activeNav === 'links' ? 'is-active' : undefined} href="#links" aria-current={activeNav === 'links' ? 'page' : undefined}>LINKS</a><a className="nav-featured" href="#sons" aria-current={activeNav === 'sons' ? 'page' : undefined}>SONS</a><a className={activeNav === 'discografia' ? 'is-active' : undefined} href="#discografia" aria-current={activeNav === 'discografia' ? 'page' : undefined}>DISCOGRAFIA</a></nav>
     </header>
 
     <main>

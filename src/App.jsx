@@ -2,17 +2,16 @@ import { useEffect, useState } from 'react'
 import mark from '../assets/brocollico-mark.png'
 import discoB from '../assets/disco-b.png'
 
-const SOUNDCLOUD = 'https://soundcloud.com/brocollico'
+const SPOTIFY_ARTIST_URL = 'https://open.spotify.com/intl-pt/artist/5YDfo3roAlk7dhvOnNhICd?si=VCp5zmZKQWeRlq0pK_jdog'
 const links = [
-  { number: '01', label: 'SOUNDCLOUD', href: SOUNDCLOUD, main: true },
-  { number: '02', label: 'INSTAGRAM', href: 'https://www.instagram.com/' },
-  { number: '03', label: 'CONTATO / SHOWS', href: 'mailto:contato@brocollico.com' },
+  { number: '01', label: 'SPOTIFY', href: SPOTIFY_ARTIST_URL },
+  { number: '02', label: 'INSTAGRAM', href: 'https://www.instagram.com/broccoli.comp' },
+  { number: '03', label: 'YOUTUBE', href: 'https://www.youtube.com/@BROCCOLICO47' },
 ]
-const tracks = [
-  ['01', 'LEVITANDO', 'COOLPE'],
-  ['04', 'SUBTERRÂNEO', 'BEGA & COOLPE'],
-  ['08', 'ME VIU NO BAILE', 'BEGA, COOLPE & LARSEN'],
-  ['11', 'DESLIGA O FLASH', 'COOLPE & ROOJI'],
+const albums = [
+  '0YfaYpdPCP02wrkI6mShdC',
+  '6waxAD6jAFWKOWnNKSzyRR',
+  '36PP4oGai0dG3FIYwktztD',
 ]
 
 function OutboundLink({ href, className, children, ...props }) {
@@ -48,29 +47,25 @@ export default function App() {
       <section className="section links-section" id="links" aria-labelledby="links-title">
         <div className="section-heading"><p className="section-index">01 / ONDE COLAR</p><h2 id="links-title">SEM<br />AT<span>A</span>LHO.</h2></div>
         <div className="link-stack">
-          {links.map(({ number, label, href, main }) => <OutboundLink className={`street-link ${main ? 'link-main' : ''}`} href={href} key={number}><span>{number}</span><strong>{label}</strong><b aria-hidden="true">↗</b></OutboundLink>)}
+          {links.map(({ number, label, href }) => <OutboundLink className="street-link" href={href} key={number}><span>{number}</span><strong>{label}</strong><b aria-hidden="true">↗</b></OutboundLink>)}
         </div>
         <p className="small-note">Links vivos, frequência variável.</p>
       </section>
 
       <section className="section sounds-section" id="sons" aria-labelledby="sounds-title">
         <div className="record-tag">LADO B <span>///</span> SEMPRE</div>
-        <div className="section-heading sound-heading"><p className="section-index">02 / AMOSTRAS</p><h2 id="sounds-title">APER<span>TA</span><br />O PLAY.</h2></div>
+        <div className="section-heading sound-heading"><p className="section-index">02 / OUVIR AGORA</p><h2 id="sounds-title">BROCCOLI<br />É A <span>GANG</span>.</h2></div>
         <div className="release-layout">
           <div className="cover-wrap"><img src={discoB} alt="Arte verde do Disco B, da Brocollico" /><div className="cover-label">DISCO B<br /><span>2024</span></div></div>
-          <div className="track-list" aria-label="Faixas selecionadas">
-            {tracks.map(([number, title, featuring]) => <OutboundLink className="track" href={SOUNDCLOUD} key={number} aria-label={`Ouvir ${title} no SoundCloud`}><span className="track-number">{number}</span><span className="track-name">{title}</span><span className="track-meta">{featuring}</span><span className="track-play" aria-hidden="true">▶</span></OutboundLink>)}
-          </div>
+          <iframe className="spotify-embed featured-album" title="Álbum em destaque da Broccolico no Spotify" src="https://open.spotify.com/embed/album/0YfaYpdPCP02wrkI6mShdC?utm_source=generator" width="100%" height="352" frameBorder="0" allowFullScreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" />
         </div>
-        <OutboundLink className="all-tracks" href={SOUNDCLOUD}>OUVIR TODAS NO SOUNDCLOUD <span>↗</span></OutboundLink>
+        <OutboundLink className="all-tracks" href={SPOTIFY_ARTIST_URL}>ABRIR NO SPOTIFY <span>↗</span></OutboundLink>
       </section>
 
       <section className="section gallery-section" id="galeria" aria-labelledby="gallery-title">
         <div className="section-heading"><p className="section-index">03 / ARQUIVO</p><h2 id="gallery-title">DISCO<span>GRAFIA.</span></h2></div>
-        <div className="gallery-grid">
-          <figure className="gallery-item gallery-mark"><img src={mark} alt="Selo da Brocollico sobre textura granulada" /><figcaption>MARCA / 01</figcaption></figure>
-          <figure className="gallery-item gallery-album"><img src={discoB} alt="Tracklist do Disco B em verde" /><figcaption>DISCO B / 02</figcaption></figure>
-          <div className="gallery-item manifesto" aria-label="Manifesto Brocollico"><span>SEM<br />POSSE.<br />SÓ<br />RITMO.</span><small>SP / BRASIL / 2024</small></div>
+        <div className="album-grid" aria-label="Discografia no Spotify">
+          {albums.map((albumId, index) => <iframe className="spotify-embed album-embed" key={albumId} title={`Álbum ${index + 1} da Broccolico no Spotify`} src={`https://open.spotify.com/embed/album/${albumId}?utm_source=generator`} width="100%" height="352" frameBorder="0" allowFullScreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" />)}
         </div>
       </section>
     </main>

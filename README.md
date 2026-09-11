@@ -1,4 +1,4 @@
-# BROCOLLICO
+# BROCCOLICO
 
 Site React com Vite, preparado para GitHub Pages.
 

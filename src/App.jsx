@@ -4,6 +4,14 @@ import discoB from '../assets/disco-b.png'
 import dolpeBeatNo1 from '../assets/09-09-beat-g-minor.mp3'
 import dolpeBeatNo5 from '../assets/22-08 beat 5.mp3'
 import dolpeBeatNo10 from '../assets/30-08 BEAT 10.mp3'
+import dolpeBeatEbMinor from '../assets/07-08 beat Eb Minor.mp3'
+import dolpeBeatNo2CSharpMinor from '../assets/13-06 beat 2 Csharp Minor.mp3'
+import dolpeBeatBMinor from '../assets/27-06 beat B Minor.mp3'
+import dolpeBeatNo4CSharpMinor from '../assets/16-08 BEAT 4 Csharp Minor.mp3'
+import dolpeBeatBbMinor from '../assets/28-06 beat Bb Minor.mp3'
+import dolpeBeatFMinor from '../assets/11-08 BEAT F Minor.mp3'
+import dolpeBeatNo2BMinor from '../assets/02-08 beat 2 B Minor.mp3'
+import dolpeBeatAMinor from '../assets/12-06 beat A Minor.mp3'
 
 const beatTracks = [
   {
@@ -17,6 +25,38 @@ const beatTracks = [
   {
     src: dolpeBeatNo10,
     label: 'Dolpe: Beat, No. 10',
+  },
+  {
+    src: dolpeBeatEbMinor,
+    label: 'Dolpe: Beat in E♭ Minor',
+  },
+  {
+    src: dolpeBeatNo2CSharpMinor,
+    label: 'Dolpe: Beat, No. 2 in C# Minor',
+  },
+  {
+    src: dolpeBeatBMinor,
+    label: 'Dolpe: Beat in B Minor',
+  },
+  {
+    src: dolpeBeatNo4CSharpMinor,
+    label: 'Dolpe: Beat, No. 4 in C# Minor',
+  },
+  {
+    src: dolpeBeatBbMinor,
+    label: 'Dolpe: Beat in B♭ Minor',
+  },
+  {
+    src: dolpeBeatFMinor,
+    label: 'Dolpe: Beat in F Minor',
+  },
+  {
+    src: dolpeBeatNo2BMinor,
+    label: 'Dolpe: Beat, No. 2 in B Minor',
+  },
+  {
+    src: dolpeBeatAMinor,
+    label: 'Dolpe: Beat in A Minor',
   },
 ]
 

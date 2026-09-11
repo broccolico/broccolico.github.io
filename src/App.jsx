@@ -98,8 +98,8 @@ SELO INDEPENDENTE CRIATIVO`, 'color: #72ff24; font: 700 12px/1.1 monospace;')
   return <>
     <div className="noise" aria-hidden="true" />
     <header className={`site-header ${scrolled ? 'scrolled' : ''}`} id="topo">
-      <a className="header-logo" href="#inicio" aria-label="BROCCOLICO — início">BROCCOLICO<span>®</span></a>
-      <nav aria-label="Navegação principal"><a href="#links">LINKS</a><a href="#sons">SONS</a><a href="#discografia">DISCOGRAFIA</a></nav>
+      <a className="header-logo" href="#inicio" aria-label="BROCCOLICO — início">BROCCOLI CO<span>®</span></a>
+      <nav aria-label="Navegação principal"><a className="nav-featured" href="#sobre">SOBRE</a><a href="#links">LINKS</a><a href="#sons">SONS</a><a href="#discografia">DISCOGRAFIA</a></nav>
     </header>
 
     <main>
@@ -109,8 +109,13 @@ SELO INDEPENDENTE CRIATIVO`, 'color: #72ff24; font: 700 12px/1.1 monospace;')
         <a className="scroll-cue" href="#links" aria-label="Ir para os links">DESCE <i /></a>
       </section>
 
+      <section className="section about-section" id="sobre" aria-labelledby="about-title">
+        <div className="section-heading"><p className="section-index">01 / QUEM SOMOS</p><h2 id="about-title">DO<br />SUB<span>SOLO.</span></h2></div>
+        <p className="about-copy">A BROCCOLICO é um selo independente brasileiro de trap, beats e música underground. Com lançamentos como <em>Dolpe Beats Vol. 1</em>, o selo reúne artistas, produtores e a cultura independente do Brasil.</p>
+      </section>
+
       <section className="section links-section" id="links" aria-labelledby="links-title">
-        <div className="section-heading"><p className="section-index">01 / ONDE COLAR</p><h2 id="links-title">SEM<br />AT<span>A</span>LHO.</h2></div>
+        <div className="section-heading"><p className="section-index">02 / ONDE COLAR</p><h2 id="links-title">SEM<br />AT<span>A</span>LHO.</h2></div>
         <div className="link-stack">
           {links.map(({ number, label, href }) => <OutboundLink className="street-link" href={href} key={number}><span>{number}</span><strong>{label}</strong><b aria-hidden="true">↗</b></OutboundLink>)}
         </div>
@@ -119,7 +124,7 @@ SELO INDEPENDENTE CRIATIVO`, 'color: #72ff24; font: 700 12px/1.1 monospace;')
 
       <section className="section sounds-section" id="sons" aria-labelledby="sounds-title">
         <div className="record-tag">LADO B <span>///</span> SEMPRE</div>
-        <div className="section-heading sound-heading"><p className="section-index">02 / OUVIR AGORA</p><h2 id="sounds-title">BROCCOLI<br /> A <span>GANG</span>.</h2></div>
+        <div className="section-heading sound-heading"><p className="section-index">03 / OUVIR AGORA</p><h2 id="sounds-title">BROCCOLI<br /> A <span>GANG</span>.</h2></div>
         <div className="release-layout">
           <div className="cover-wrap"><img src={discoB} alt="Arte verde do Disco B, da BROCCOLIco" /><div className="cover-label">DISCO B<br /><span>2024</span></div></div>
           <iframe className="spotify-embed featured-album" title="Álbum em destaque da Broccolico no Spotify" src="https://open.spotify.com/embed/album/0YfaYpdPCP02wrkI6mShdC?utm_source=generator" width="100%" height="352" frameBorder="0" allowFullScreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" />
@@ -128,13 +133,13 @@ SELO INDEPENDENTE CRIATIVO`, 'color: #72ff24; font: 700 12px/1.1 monospace;')
       </section>
 
       <section className="section discography-section" id="discografia" aria-labelledby="discography-title">
-        <div className="discography-header"><div className="section-heading"><p className="section-index">03 / ARQUIVO</p><h2 id="discography-title">DISCO<span>GRAFIA.</span></h2></div><div className="carousel-controls"><button type="button" onClick={() => scrollDiscography(-1)} aria-label="Ver lançamentos anteriores">←</button><button type="button" onClick={() => scrollDiscography(1)} aria-label="Ver próximos lançamentos">→</button></div></div>
+        <div className="discography-header"><div className="section-heading"><p className="section-index">04 / ARQUIVO</p><h2 id="discography-title">DISCO<span>GRAFIA.</span></h2></div><div className="carousel-controls"><button type="button" onClick={() => scrollDiscography(-1)} aria-label="Ver lançamentos anteriores">←</button><button type="button" onClick={() => scrollDiscography(1)} aria-label="Ver próximos lançamentos">→</button></div></div>
         <div className="album-carousel" ref={carouselRef} aria-label="Discografia no Spotify">
           {releases.map((albumId, index) => <iframe className="spotify-embed album-embed" key={albumId} title={`Lançamento ${index + 1} da Broccolico no Spotify`} src={`https://open.spotify.com/embed/album/${albumId}?utm_source=generator`} width="100%" height="352" frameBorder="0" allowFullScreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" />)}
         </div>
       </section>
     </main>
 
-    <footer><a href="#inicio">BROCCOLICO<span>®</span></a><p>O BARULHO É NOSSO.</p><p>© {new Date().getFullYear()}</p></footer>
+    <footer><a href="#inicio">BROCCOLI CO<span>®</span></a><p>O BARULHO É NOSSO.</p><p>© {new Date().getFullYear()}</p></footer>
   </>
 }

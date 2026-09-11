@@ -54,7 +54,7 @@ export default function App() {
 
       <section className="section sounds-section" id="sons" aria-labelledby="sounds-title">
         <div className="record-tag">LADO B <span>///</span> SEMPRE</div>
-        <div className="section-heading sound-heading"><p className="section-index">02 / OUVIR AGORA</p><h2 id="sounds-title">BROCCOLI<br />É A <span>GANG</span>.</h2></div>
+        <div className="section-heading sound-heading"><p className="section-index">02 / OUVIR AGORA</p><h2 id="sounds-title">BROCCOLI<br /> A <span>GANG</span>.</h2></div>
         <div className="release-layout">
           <div className="cover-wrap"><img src={discoB} alt="Arte verde do Disco B, da Brocollico" /><div className="cover-label">DISCO B<br /><span>2024</span></div></div>
           <iframe className="spotify-embed featured-album" title="Álbum em destaque da Broccolico no Spotify" src="https://open.spotify.com/embed/album/0YfaYpdPCP02wrkI6mShdC?utm_source=generator" width="100%" height="352" frameBorder="0" allowFullScreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" />

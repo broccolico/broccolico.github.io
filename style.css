@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "Old London";
+  src: url("./assets/OldLondon.ttf") format("truetype");
+  font-display: swap;
+}
+
 :root {
   --ink: #070907;
   --panel: #0d120d;
@@ -6,14 +12,18 @@
   --muted: #90988c;
   --acid: #72ff24;
   --acid-dark: #46ca0a;
-  --display: "Bebas Neue", Impact, sans-serif;
+  --display: "Old London", "Bebas Neue", Impact, sans-serif;
   --mono: "DM Mono", monospace;
   --marker: "Permanent Marker", cursive;
   --pulse-bar: .5s;
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scrollbar-color: var(--acid) #000; scrollbar-width: thin; }
+html::-webkit-scrollbar { width: 10px; }
+html::-webkit-scrollbar-track { background: #000; }
+html::-webkit-scrollbar-thumb { background: var(--acid); border: 2px solid #000; }
+html::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
 body { margin: 0; color: var(--paper); background: var(--ink); font-family: var(--mono); overflow-x: hidden; user-select: none; -webkit-user-select: none; }
 a { color: inherit; text-decoration: none; }
 
@@ -41,7 +51,7 @@ nav .nav-featured { color: var(--acid); border-color: var(--acid); animation: si
 .hero-pill-top { background: var(--acid); color: var(--ink); border-color: var(--acid); font-weight: 700; letter-spacing: .16em; transform: rotate(-2deg); }
 .hero-pill-bottom { margin-top: 1.2rem; color: var(--paper); border-color: rgba(228,229,220,.75); background: rgba(7,9,7,.72); transform: rotate(1.2deg); }
 h1, h2 { font-family: var(--display); font-weight: 400; margin: 0; letter-spacing: .015em; }
-h1 { font-size: clamp(5.8rem, 17vw, 13rem); line-height: .79; }
+h1 { font-size: clamp(4.8rem, 13vw, 10rem); line-height: .82; }
 .hero-line { margin: .9rem auto 0; color: var(--paper); }.hero-mantra { margin: .45rem 0 0; color: var(--acid); font-size: .62rem; letter-spacing: .12em; }
 .hero-stamp { position: absolute; top: 22%; left: clamp(1.3rem, 9vw, 10rem); color: var(--acid); font-size: .62rem; letter-spacing: .1em; writing-mode: vertical-rl; transform: rotate(180deg); }
 .hero-stamp span { color: var(--paper); padding: 8px; }
@@ -51,7 +61,7 @@ h1 { font-size: clamp(5.8rem, 17vw, 13rem); line-height: .79; }
 .section { position: relative; padding: clamp(5.5rem, 11vw, 10rem) clamp(1.25rem, 7vw, 8rem); }
 .section-heading { position: relative; z-index: 1; }
 .section-index { margin: 0 0 .8rem; color: var(--acid); }
-h2 { font-size: clamp(4.5rem, 13vw, 10rem); line-height: .78; }
+h2 { font-size: clamp(3.6rem, 8vw, 6rem); line-height: .85; }
 h2 span { color: var(--acid); }
 .about-section { display: grid; grid-template-columns: minmax(160px, .8fr) minmax(280px, 1.3fr); align-items: end; gap: clamp(3rem, 10vw, 11rem); background: #0b100a; }.about-copy { max-width: 630px; margin: 0; color: var(--paper); font: clamp(1.15rem, 2vw, 1.8rem)/1.38 var(--mono); letter-spacing: -.04em; }.about-copy em { color: var(--acid); font-style: normal; }
 .links-section { background: var(--paper); color: var(--ink); min-height: 90svh; display: grid; align-content: center; grid-template-columns: minmax(150px, .8fr) minmax(280px, 1.3fr); gap: clamp(3rem, 10vw, 11rem); }
@@ -60,7 +70,7 @@ h2 span { color: var(--acid); }
 .link-stack { position: relative; z-index: 1; border-top: 2px solid var(--ink); }
 .street-link { min-height: 84px; border-bottom: 2px solid var(--ink); display: grid; grid-template-columns: 35px 1fr 25px; align-items: center; gap: .8rem; padding: .75rem 0; transition: background .2s, padding .2s; }
 .street-link:hover, .street-link:focus-visible { background: var(--acid); padding-inline: .8rem; }
-.street-link span { font-size: .62rem; align-self: start; margin-top: .2rem; }.street-link strong { font: clamp(1.8rem, 4vw, 3.25rem)/.9 var(--display); letter-spacing: .03em; }.street-link b { font-size: 1.4rem; font-weight: 400; }
+.street-link span { font-size: .62rem; align-self: start; margin-top: .2rem; }.street-link strong { font: clamp(1.8rem, 4vw, 3.25rem)/.9 "Bebas Neue", Impact, sans-serif; letter-spacing: .03em; }.street-link b { font-size: 1.4rem; font-weight: 400; }
 .small-note { grid-column: 2; font-size: .62rem; text-transform: uppercase; letter-spacing: .1em; margin: -2rem 0 0; }
 
 .sounds-section { background: #0b100a; overflow: hidden; }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import mark from '../assets/broccolico-mark.png'
 import discoB from '../assets/disco-b.png'
 import dolpeBeatNo1 from '../assets/09-09-beat-g-minor.mp3'
@@ -120,22 +120,27 @@ export default function App() {
     }
   }, [])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     let animationFrame
     const updateFooterOffset = () => {
       if (animationFrame) return
       animationFrame = window.requestAnimationFrame(() => {
-        const footerTop = footerRef.current?.getBoundingClientRect().top ?? window.innerHeight
-        setFooterOffset(Math.max(0, Math.round(window.innerHeight - footerTop)))
+        const viewportHeight = window.visualViewport?.height ?? window.innerHeight
+        const footerTop = footerRef.current?.getBoundingClientRect().top ?? viewportHeight
+        setFooterOffset(Math.max(0, Math.round(viewportHeight - footerTop)))
         animationFrame = undefined
       })
     }
     updateFooterOffset()
     window.addEventListener('scroll', updateFooterOffset, { passive: true })
     window.addEventListener('resize', updateFooterOffset)
+    window.visualViewport?.addEventListener('resize', updateFooterOffset)
+    window.visualViewport?.addEventListener('scroll', updateFooterOffset)
     return () => {
       window.removeEventListener('scroll', updateFooterOffset)
       window.removeEventListener('resize', updateFooterOffset)
+      window.visualViewport?.removeEventListener('resize', updateFooterOffset)
+      window.visualViewport?.removeEventListener('scroll', updateFooterOffset)
       if (animationFrame) window.cancelAnimationFrame(animationFrame)
     }
   }, [])
@@ -266,9 +271,9 @@ SELO INDEPENDENTE CRIATIVO`, 'color: #72ff24; font: 700 12px/1.1 monospace;')
     </main>
 
     <footer ref={footerRef}><a href="#inicio">BROCCOLI CO<span>®</span></a><p>O BARULHO É NOSSO.</p><p>© {new Date().getFullYear()}</p></footer>
-    <div className="beat-player" style={{ bottom: `${footerOffset}px` }} aria-label="Player de beat">
+    <div className={`beat-player${beatPlaying ? ' is-playing' : ''}`} style={{ bottom: `calc(${footerOffset}px + env(safe-area-inset-bottom, 0px))` }} aria-label="Player de beat">
       <div className="beat-controls"><button type="button" onClick={() => changeBeat(-1)} aria-label="Beat anterior">↶</button><button className="beat-play" type="button" onClick={toggleBeat} aria-label={beatPlaying ? 'Pausar beat' : 'Tocar beat'}>{beatPlaying ? 'Ⅱ' : '▶'}</button><button type="button" onClick={() => changeBeat(1)} aria-label="Próximo beat">↷</button></div>
-      <p><span>OUVINDO AGORA //</span> {currentBeat?.label ?? 'SEM BEAT'}</p>
+      <div className="beat-text"><p className="beat-marquee"><span><b>OUVINDO AGORA //</b> {currentBeat?.label ?? 'SEM BEAT'}</span><span aria-hidden="true"><b>OUVINDO AGORA //</b> {currentBeat?.label ?? 'SEM BEAT'}</span></p></div>
     </div>
   </>
 }

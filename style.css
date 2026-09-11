@@ -30,7 +30,7 @@ nav a:hover, nav a:focus-visible { color: var(--acid); border-color: var(--acid)
 .hero { min-height: 100svh; position: relative; display: grid; place-items: center; isolation: isolate; padding: 7rem 1.25rem 3rem; overflow: hidden; }
 .hero::before { content: ""; position: absolute; inset: 0; z-index: -2; background: radial-gradient(ellipse at 50% 46%, rgba(114,255,36,.08), transparent 31%), radial-gradient(ellipse at 50% 48%, #0a0d0a 0%, #030403 55%, #000 100%); }
 .hero-mark { width: min(68vw, 570px); aspect-ratio: 1; position: absolute; object-fit: cover; opacity: .45; mix-blend-mode: screen; filter: contrast(1.35) grayscale(1); transform: rotate(-10deg); -webkit-mask-image: radial-gradient(ellipse at center, #000 38%, rgba(0,0,0,.94) 48%, rgba(0,0,0,.55) 64%, transparent 82%); mask-image: radial-gradient(ellipse at center, #000 38%, rgba(0,0,0,.94) 48%, rgba(0,0,0,.55) 64%, transparent 82%); }
-.hero-copy { text-align: center; position: relative; text-shadow: 0 2px 16px #000; }
+.hero-copy { text-align: center; position: relative; text-shadow: 0 2px 16px #000; }.hero-title-slot { height: clamp(4.6rem, 13.5vw, 10.3rem); }.hero-title { position: fixed; z-index: 11; margin: 0; white-space: nowrap; will-change: top, left, transform, font-size; }
 .eyebrow, .hero-line, .section-index { font-size: .68rem; letter-spacing: .14em; }
 .eyebrow { color: var(--acid); margin: 0 0 .8rem; }
 .hero-pill { display: table; margin-inline: auto; padding: .5rem .8rem; border: 1px solid var(--acid); font-size: .65rem; letter-spacing: .14em; text-transform: uppercase; box-shadow: 4px 4px 0 rgba(114,255,36,.22); }

@@ -268,7 +268,7 @@ SELO INDEPENDENTE CRIATIVO`, 'color: #72ff24; font: 700 12px/1.1 monospace;')
     <footer ref={footerRef}><a href="#inicio">BROCCOLI CO<span>®</span></a><p>O BARULHO É NOSSO.</p><p>© {new Date().getFullYear()}</p></footer>
     <div className="beat-player" style={{ bottom: `${footerOffset}px` }} aria-label="Player de beat">
       <div className="beat-controls"><button type="button" onClick={() => changeBeat(-1)} aria-label="Beat anterior">↶</button><button className="beat-play" type="button" onClick={toggleBeat} aria-label={beatPlaying ? 'Pausar beat' : 'Tocar beat'}>{beatPlaying ? 'Ⅱ' : '▶'}</button><button type="button" onClick={() => changeBeat(1)} aria-label="Próximo beat">↷</button></div>
-      <p><span>BEAT {beatTracks.length > 1 ? `${beatIndex + 1}/${beatTracks.length}` : 'LOOP'} //</span> {currentBeat?.label ?? 'SEM BEAT'}</p>
+      <p><span>OUVINDO AGORA //</span> {currentBeat?.label ?? 'SEM BEAT'}</p>
     </div>
   </>
 }

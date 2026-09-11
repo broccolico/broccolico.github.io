@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import mark from '../assets/broccolico-mark.png'
 import discoB from '../assets/disco-b.png'
+import beat from '../assets/09-09-beat-g-minor.mp3'
 
 const SPOTIFY_ARTIST_URL = 'https://open.spotify.com/intl-pt/artist/5YDfo3roAlk7dhvOnNhICd?si=VCp5zmZKQWeRlq0pK_jdog'
 const links = [
@@ -28,7 +29,9 @@ function OutboundLink({ href, className, children, ...props }) {
 
 export default function App() {
   const [scrolled, setScrolled] = useState(false)
+  const [beatPlaying, setBeatPlaying] = useState(false)
   const carouselRef = useRef(null)
+  const beatAudioRef = useRef(null)
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 80)
@@ -95,8 +98,23 @@ SELO INDEPENDENTE CRIATIVO`, 'color: #72ff24; font: 700 12px/1.1 monospace;')
     if (carousel) carousel.scrollBy({ left: direction * carousel.clientWidth * .82, behavior: 'smooth' })
   }
 
+  const toggleBeat = async () => {
+    const audio = beatAudioRef.current
+    if (!audio) return
+    if (audio.paused) {
+      try { await audio.play() } catch { setBeatPlaying(false) }
+    } else audio.pause()
+  }
+
+  const seekBeat = (seconds) => {
+    const audio = beatAudioRef.current
+    if (!audio) return
+    audio.currentTime = Math.max(0, Math.min(audio.duration || Infinity, audio.currentTime + seconds))
+  }
+
   return <>
     <div className="noise" aria-hidden="true" />
+    <audio ref={beatAudioRef} src={beat} loop preload="metadata" onPlay={() => setBeatPlaying(true)} onPause={() => setBeatPlaying(false)} />
     <header className={`site-header ${scrolled ? 'scrolled' : ''}`} id="topo">
       <a className="header-logo" href="#inicio" aria-label="BROCCOLICO — início">BROCCOLI CO<span>®</span></a>
       <nav aria-label="Navegação principal"><a className="nav-featured" href="#sobre">SOBRE</a><a href="#links">LINKS</a><a href="#sons">SONS</a><a href="#discografia">DISCOGRAFIA</a></nav>
@@ -141,5 +159,9 @@ SELO INDEPENDENTE CRIATIVO`, 'color: #72ff24; font: 700 12px/1.1 monospace;')
     </main>
 
     <footer><a href="#inicio">BROCCOLI CO<span>®</span></a><p>O BARULHO É NOSSO.</p><p>© {new Date().getFullYear()}</p></footer>
+    <div className="beat-player" aria-label="Player de beat">
+      <div className="beat-controls"><button type="button" onClick={() => seekBeat(-10)} aria-label="Voltar dez segundos">↶</button><button className="beat-play" type="button" onClick={toggleBeat} aria-label={beatPlaying ? 'Pausar beat' : 'Tocar beat'}>{beatPlaying ? 'Ⅱ' : '▶'}</button><button type="button" onClick={() => seekBeat(10)} aria-label="Avançar dez segundos">↷</button></div>
+      <p><span>BEAT LOOP //</span> 09-09 BEAT G#MINOR.mp3</p>
+    </div>
   </>
 }

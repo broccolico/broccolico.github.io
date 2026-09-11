@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import mark from '../assets/broccolico-mark.png'
 import discoB from '../assets/disco-b.png'
 
@@ -8,10 +8,16 @@ const links = [
   { number: '02', label: 'INSTAGRAM', href: 'https://www.instagram.com/broccoli.comp' },
   { number: '03', label: 'YOUTUBE', href: 'https://www.youtube.com/@BROCCOLICO47' },
 ]
-const albums = [
-  '0YfaYpdPCP02wrkI6mShdC',
-  '6waxAD6jAFWKOWnNKSzyRR',
-  '36PP4oGai0dG3FIYwktztD',
+const releases = [
+  '0YfaYpdPCP02wrkI6mShdC', '6waxAD6jAFWKOWnNKSzyRR', '36PP4oGai0dG3FIYwktztD',
+  '3XM09swHSuGqAdK1NYIgB0', '4QrWj3L9sT6mMnHWiNfhtA', '05eJWrLT4x6uHbtCTAZ9jp',
+  '5yM8MXnmLIircYQEeYDS21', '3udyEGvRkYErjxLCUKiZov', '09cgvP9d1TnIbEAGSlfez9',
+  '0ld7kRLqgB728gSzhQLnOs', '1JE5vo8F7mokWJMY2Vnv8b', '7elfYtB38oVusRDisZmhhW',
+  '62BVR0afdevkqP75wW2u8k', '2g0YN8ObthoEwhws6jdFwZ', '6egpAfGjyWOjO863ZEepki',
+  '1mrtRVdOxcMmaPdDGh7pby', '29rAd6zBGFFCV4WTWMvh8E', '2qAZIRxBlKvQuygTdJPKha',
+  '2PBjtHjI4sMoSRXLKA4w08', '3J5EOpy9xiLyY0tDyJVkjw', '1pyoGfa9i3hTWpCj4HpyuL',
+  '531Qr2UNGDMwQEar1HgSpm', '2MiTw6q1aJGWk0X3nu0tHR', '7uUrrSJavUoawPsDsjhfxw',
+  '08k4JC2ukanEZ21qwrCw35',
 ]
 
 function OutboundLink({ href, className, children, ...props }) {
@@ -21,6 +27,7 @@ function OutboundLink({ href, className, children, ...props }) {
 
 export default function App() {
   const [scrolled, setScrolled] = useState(false)
+  const carouselRef = useRef(null)
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 80)
@@ -29,11 +36,16 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const scrollDiscography = (direction) => {
+    const carousel = carouselRef.current
+    if (carousel) carousel.scrollBy({ left: direction * carousel.clientWidth * .82, behavior: 'smooth' })
+  }
+
   return <>
     <div className="noise" aria-hidden="true" />
     <header className={`site-header ${scrolled ? 'scrolled' : ''}`} id="topo">
       <a className="header-logo" href="#inicio" aria-label="BROCCOLICO — início">BROCCOLICO<span>®</span></a>
-      <nav aria-label="Navegação principal"><a href="#links">LINKS</a><a href="#sons">SONS</a><a href="#galeria">GALERIA</a></nav>
+      <nav aria-label="Navegação principal"><a href="#links">LINKS</a><a href="#sons">SONS</a><a href="#discografia">DISCOGRAFIA</a></nav>
     </header>
 
     <main>
@@ -61,10 +73,10 @@ export default function App() {
         <OutboundLink className="all-tracks" href={SPOTIFY_ARTIST_URL}>ABRIR NO SPOTIFY <span>↗</span></OutboundLink>
       </section>
 
-      <section className="section gallery-section" id="galeria" aria-labelledby="gallery-title">
-        <div className="section-heading"><p className="section-index">03 / ARQUIVO</p><h2 id="gallery-title">DISCO<span>GRAFIA.</span></h2></div>
-        <div className="album-grid" aria-label="Discografia no Spotify">
-          {albums.map((albumId, index) => <iframe className="spotify-embed album-embed" key={albumId} title={`Álbum ${index + 1} da Broccolico no Spotify`} src={`https://open.spotify.com/embed/album/${albumId}?utm_source=generator`} width="100%" height="352" frameBorder="0" allowFullScreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" />)}
+      <section className="section discography-section" id="discografia" aria-labelledby="discography-title">
+        <div className="discography-header"><div className="section-heading"><p className="section-index">03 / ARQUIVO</p><h2 id="discography-title">DISCO<span>GRAFIA.</span></h2></div><div className="carousel-controls"><button type="button" onClick={() => scrollDiscography(-1)} aria-label="Ver lançamentos anteriores">←</button><button type="button" onClick={() => scrollDiscography(1)} aria-label="Ver próximos lançamentos">→</button></div></div>
+        <div className="album-carousel" ref={carouselRef} aria-label="Discografia no Spotify">
+          {releases.map((albumId, index) => <iframe className="spotify-embed album-embed" key={albumId} title={`Lançamento ${index + 1} da Broccolico no Spotify`} src={`https://open.spotify.com/embed/album/${albumId}?utm_source=generator`} width="100%" height="352" frameBorder="0" allowFullScreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" />)}
         </div>
       </section>
     </main>

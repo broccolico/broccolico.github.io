@@ -27,45 +27,14 @@ function OutboundLink({ href, className, children, ...props }) {
 
 export default function App() {
   const [scrolled, setScrolled] = useState(false)
-  const [heroProgress, setHeroProgress] = useState(0)
   const carouselRef = useRef(null)
 
   useEffect(() => {
-    let animationFrame
-    const handleScroll = () => {
-      if (animationFrame) return
-      animationFrame = window.requestAnimationFrame(() => {
-        const scrollPosition = window.scrollY
-        setScrolled(scrollPosition > 80)
-        setHeroProgress(Math.min(scrollPosition / 620, 1))
-        animationFrame = undefined
-      })
-    }
+    const handleScroll = () => setScrolled(window.scrollY > 80)
     handleScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-      if (animationFrame) window.cancelAnimationFrame(animationFrame)
-    }
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
-  const titleStartFontSize = Math.min(Math.max(92.8, window.innerWidth * .17), 208)
-  const titleEndFontSize = Math.min(Math.max(20, window.innerWidth * .023), 32)
-  const titleStartTop = window.innerHeight / 2 + Math.min(Math.max(24, window.innerWidth * .03), 48)
-  const titleEndTop = 23.2
-  const titleStartLeft = window.innerWidth / 2
-  const titleEndLeft = Math.min(Math.max(20, window.innerWidth * .04), 72)
-  const interpolate = (start, end) => start + (end - start) * heroProgress
-  const heroTitleStyle = {
-    top: `${interpolate(titleStartTop, titleEndTop)}px`,
-    left: `${interpolate(titleStartLeft, titleEndLeft)}px`,
-    fontSize: `${interpolate(titleStartFontSize, titleEndFontSize)}px`,
-    transform: `translate(${-50 * (1 - heroProgress)}%, ${-50 * (1 - heroProgress)}%)`,
-  }
-  const pillOpacity = Math.max(0, 1 - heroProgress * 3.2)
-  const pillOffset = heroProgress * 52
-  const topPillStyle = { opacity: pillOpacity, transform: `translateY(-${pillOffset}px) rotate(-2deg)` }
-  const bottomPillStyle = { opacity: pillOpacity, transform: `translateY(-${pillOffset}px) rotate(1.2deg)` }
 
   const scrollDiscography = (direction) => {
     const carousel = carouselRef.current
@@ -75,14 +44,14 @@ export default function App() {
   return <>
     <div className="noise" aria-hidden="true" />
     <header className={`site-header ${scrolled ? 'scrolled' : ''}`} id="topo">
+      <a className="header-logo" href="#inicio" aria-label="BROCCOLICO — início">BROCCOLICO<span>®</span></a>
       <nav aria-label="Navegação principal"><a href="#links">LINKS</a><a href="#sons">SONS</a><a href="#discografia">DISCOGRAFIA</a></nav>
     </header>
-    <h1 id="hero-title" className="hero-title" style={heroTitleStyle}>BROCCOLI CO.</h1>
 
     <main>
       <section className="hero" id="inicio" aria-labelledby="hero-title">
         <img className="hero-mark" src={mark} alt="Marca em stencil da BROCCOLIco" />
-        <div className="hero-copy"><p className="eyebrow hero-pill hero-pill-top" style={topPillStyle}>UNDERGROUND DE ORIGEM</p><div className="hero-title-slot" aria-hidden="true" /><p className="hero-line hero-pill hero-pill-bottom" style={bottomPillStyle}>SELO INDEPENDENTE CRIATIVO</p></div>
+        <div className="hero-copy"><p className="eyebrow hero-pill hero-pill-top">UNDERGROUND DE ORIGEM</p><h1 id="hero-title">BROCCOLI CO.</h1><p className="hero-line hero-pill hero-pill-bottom">SELO INDEPENDENTE CRIATIVO</p></div>
         <a className="scroll-cue" href="#links" aria-label="Ir para os links">DESCE <i /></a>
       </section>
 

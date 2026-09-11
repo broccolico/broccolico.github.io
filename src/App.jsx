@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import mark from '../assets/broccolico-mark.png'
-import discoB from '../assets/disco-b.png'
+import discoCover from '../assets/WhatsApp Image 2026-09-11 at 13.46.17.jpeg'
 import dolpeBeatNo1 from '../assets/09-09-beat-g-minor.mp3'
 import dolpeBeatNo5 from '../assets/22-08 beat 5.mp3'
 import dolpeBeatNo10 from '../assets/30-08 BEAT 10.mp3'
@@ -278,7 +278,7 @@ SELO INDEPENDENTE CRIATIVO`, 'color: #72ff24; font: 700 12px/1.1 monospace;')
         <div className="record-tag">LADO B <span>///</span> SEMPRE</div>
         <div className="section-heading sound-heading"><p className="section-index">03 / OUVIR AGORA</p><h2 id="sounds-title">BROCCOLI<br /> A <span>GANG</span>.</h2></div>
         <div className="release-layout">
-          <div className="cover-wrap"><img src={discoB} alt="Arte verde do Disco B, da BROCCOLIco" /><div className="cover-label">DISCO B<br /><span>2024</span></div></div>
+          <div className="cover-wrap"><img src={discoCover} alt="Arte de capa do Disco B, da BROCCOLIco" /><div className="cover-label">DISCO B<br /><span>2024</span></div></div>
           <iframe className="spotify-embed featured-album" title="Álbum em destaque da Broccolico no Spotify" src="https://open.spotify.com/embed/album/0YfaYpdPCP02wrkI6mShdC?utm_source=generator" width="100%" height="352" frameBorder="0" allowFullScreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" />
         </div>
         <OutboundLink className="all-tracks" href={SPOTIFY_ARTIST_URL}>ABRIR NO SPOTIFY <span>↗</span></OutboundLink>

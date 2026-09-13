@@ -15,6 +15,23 @@
 .brand-hero h1 { margin: 0; font: 400 clamp(4.8rem, 13vw, 10rem) /.82 var(--display); letter-spacing: .015em; }
 .brand-hero .hero-pill-bottom { margin-top: 1.2rem; color: var(--paper); border-color: rgba(228, 229, 220, .75); background: rgba(7, 9, 7, .72); transform: rotate(1.2deg); }
 
+.release-flip { width: min(100%, 500px); aspect-ratio: 1; cursor: pointer; perspective: 1500px; box-shadow: none; }
+.release-flip:focus-visible { outline: 2px solid var(--acid); outline-offset: 10px; }
+.release-flip-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.2, .75, .2, 1); }
+.release-flip.is-flipped .release-flip-inner { transform: rotateY(180deg); }
+.release-card-face { position: absolute; inset: 0; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.release-card-front { background: #101510; box-shadow: 18px 18px 0 var(--acid-dark); }
+.release-card-front img { height: 100%; }
+.release-card-front > span { position: absolute; left: .7rem; top: .7rem; padding: .4rem .5rem; color: var(--ink); background: var(--paper); font-size: .55rem; letter-spacing: .09em; }
+.release-card-back { color: var(--paper); background: var(--ink); transform: rotateY(180deg); box-shadow: -18px 18px 0 var(--acid-dark); }
+.release-back-copy { height: 100%; overflow-y: auto; padding: 1.5rem 1.4rem 2.5rem; overscroll-behavior: contain; scrollbar-color: var(--acid) var(--ink); scrollbar-width: thin; }
+.release-back-copy h3 { margin: 0 0 .7rem; color: var(--paper); font: clamp(2.2rem, 4vw, 3.3rem) /.8 var(--display); }
+.release-back-copy h3:not(:first-child) { margin-top: 1.7rem; }
+.release-back-copy h3 span { color: var(--acid); }
+.release-back-copy p { position: static; margin: 0 0 .85rem; padding: 0; color: var(--paper); background: none; font: .68rem / 1.55 var(--mono); letter-spacing: .01em; }
+.release-back-copy strong { font-weight: 700; }
+.release-back-hint { position: absolute; right: .8rem; bottom: .6rem; color: var(--acid-dark); font-size: .52rem; letter-spacing: .08em; }
+
 @media (max-width: 700px) {
   .beat-controls { height: 42px; }
   .beat-controls button { height: 42px; }
@@ -22,4 +39,7 @@
   .brand-hero .hero-mark { width: 90vw; }
   .brand-hero .hero-copy { transform: translateY(-1.5rem); }
   .brand-hero h1 { font-size: min(10vw, 5rem); line-height: .9; }
+  .release-flip { width: min(78vw, 420px); }
+  .release-back-copy { padding: 1.1rem 1rem 2.1rem; }
+  .release-back-copy p { font-size: .62rem; }
 }

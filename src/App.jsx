@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import mark from '../assets/broccolico-mark.png'
 import discoCover from '../assets/WhatsApp Image 2026-09-11 at 13.46.17.jpeg'
 import dolpeBeatNo1 from '../assets/09-09-beat-g-minor.mp3'
@@ -13,289 +13,66 @@ import dolpeBeatFMinor from '../assets/11-08 BEAT F Minor.mp3'
 import dolpeBeatNo2BMinor from '../assets/02-08 beat 2 B Minor.mp3'
 import dolpeBeatAMinor from '../assets/12-06 beat A Minor.mp3'
 
-const beatTracks = [
-  {
-    src: dolpeBeatNo1,
-    label: 'Dolpe: Beat, No. 1 in G# Minor',
-  },
-  {
-    src: dolpeBeatNo5,
-    label: 'Dolpe: Beat, No. 5',
-  },
-  {
-    src: dolpeBeatNo10,
-    label: 'Dolpe: Beat, No. 10',
-  },
-  {
-    src: dolpeBeatEbMinor,
-    label: 'Dolpe: Beat in E♭ Minor',
-  },
-  {
-    src: dolpeBeatNo2CSharpMinor,
-    label: 'Dolpe: Beat, No. 2 in C# Minor',
-  },
-  {
-    src: dolpeBeatBMinor,
-    label: 'Dolpe: Beat in B Minor',
-  },
-  {
-    src: dolpeBeatNo4CSharpMinor,
-    label: 'Dolpe: Beat, No. 4 in C# Minor',
-  },
-  {
-    src: dolpeBeatBbMinor,
-    label: 'Dolpe: Beat in B♭ Minor',
-  },
-  {
-    src: dolpeBeatFMinor,
-    label: 'Dolpe: Beat in F Minor',
-  },
-  {
-    src: dolpeBeatNo2BMinor,
-    label: 'Dolpe: Beat, No. 2 in B Minor',
-  },
-  {
-    src: dolpeBeatAMinor,
-    label: 'Dolpe: Beat in A Minor',
-  },
-]
-
 const SPOTIFY_ARTIST_URL = 'https://open.spotify.com/intl-pt/artist/5YDfo3roAlk7dhvOnNhICd?si=VCp5zmZKQWeRlq0pK_jdog'
+const FEATURED_ALBUM_URL = 'https://open.spotify.com/album/0YfaYpdPCP02wrkI6mShdC'
+const YOUTUBE_URL = 'https://www.youtube.com/watch?v=BRwSt_PLAss&list=PLM0SRGcOWtegiiPzWlJUmAjPnbE6bUoG2'
+const releaseIds = ['0YfaYpdPCP02wrkI6mShdC','6waxAD6jAFWKOWnNKSzyRR','36PP4oGai0dG3FIYwktztD','3XM09swHSuGqAdK1NYIgB0','4QrWj3L9sT6mMnHWiNfhtA','05eJWrLT4x6uHbtCTAZ9jp','5yM8MXnmLIircYQEeYDS21','3udyEGvRkYErjxLCUKiZov','09cgvP9d1TnIbEAGSlfez9','0ld7kRLqgB728gSzhQLnOs','1JE5vo8F7mokWJMY2Vnv8b','7elfYtB38oVusRDisZmhhW','62BVR0afdevkqP75wW2u8k','2g0YN8ObthoEwhws6jdFwZ','6egpAfGjyWOjO863ZEepki','1mrtRVdOxcMmaPdDGh7pby','29rAd6zBGFFCV4WTWMvh8E','2qAZIRxBlKvQuygTdJPKha','2PBjtHjI4sMoSRXLKA4w08','3J5EOpy9xiLyY0tDyJVkjw','1pyoGfa9i3hTWpCj4HpyuL','531Qr2UNGDMwQEar1HgSpm','2MiTw6q1aJGWk0X3nu0tHR','7uUrrSJavUoawPsDsjhfxw','08k4JC2ukanEZ21qwrCw35']
+const beatTracks = [
+  [dolpeBeatNo5, 'Dolpe: Beat, No. 5'], [dolpeBeatNo1, 'Dolpe: Beat, No. 1 in G# Minor'], [dolpeBeatNo10, 'Dolpe: Beat, No. 10'], [dolpeBeatEbMinor, 'Dolpe: Beat in E♭ Minor'], [dolpeBeatNo2CSharpMinor, 'Dolpe: Beat, No. 2 in C# Minor'], [dolpeBeatBMinor, 'Dolpe: Beat in B Minor'], [dolpeBeatNo4CSharpMinor, 'Dolpe: Beat, No. 4 in C# Minor'], [dolpeBeatBbMinor, 'Dolpe: Beat in B♭ Minor'], [dolpeBeatFMinor, 'Dolpe: Beat in F Minor'], [dolpeBeatNo2BMinor, 'Dolpe: Beat, No. 2 in B Minor'], [dolpeBeatAMinor, 'Dolpe: Beat in A Minor'],
+].map(([src, label]) => ({ src, label, artist: 'BROCCOLI CO.' }))
 const links = [
-  { number: '01', label: 'SPOTIFY', href: SPOTIFY_ARTIST_URL },
-  { number: '02', label: 'INSTAGRAM', href: 'https://www.instagram.com/broccoli.comp' },
-  { number: '03', label: 'YOUTUBE', href: 'https://www.youtube.com/@BROCCOLICO47' },
+  ['01', 'SPOTIFY', SPOTIFY_ARTIST_URL], ['02', 'YOUTUBE', 'https://www.youtube.com/@BROCCOLICO47'], ['03', 'INSTAGRAM', 'https://www.instagram.com/broccoli.comp'],
 ]
-const releases = [
-  '0YfaYpdPCP02wrkI6mShdC', '6waxAD6jAFWKOWnNKSzyRR', '36PP4oGai0dG3FIYwktztD',
-  '3XM09swHSuGqAdK1NYIgB0', '4QrWj3L9sT6mMnHWiNfhtA', '05eJWrLT4x6uHbtCTAZ9jp',
-  '5yM8MXnmLIircYQEeYDS21', '3udyEGvRkYErjxLCUKiZov', '09cgvP9d1TnIbEAGSlfez9',
-  '0ld7kRLqgB728gSzhQLnOs', '1JE5vo8F7mokWJMY2Vnv8b', '7elfYtB38oVusRDisZmhhW',
-  '62BVR0afdevkqP75wW2u8k', '2g0YN8ObthoEwhws6jdFwZ', '6egpAfGjyWOjO863ZEepki',
-  '1mrtRVdOxcMmaPdDGh7pby', '29rAd6zBGFFCV4WTWMvh8E', '2qAZIRxBlKvQuygTdJPKha',
-  '2PBjtHjI4sMoSRXLKA4w08', '3J5EOpy9xiLyY0tDyJVkjw', '1pyoGfa9i3hTWpCj4HpyuL',
-  '531Qr2UNGDMwQEar1HgSpm', '2MiTw6q1aJGWk0X3nu0tHR', '7uUrrSJavUoawPsDsjhfxw',
-  '08k4JC2ukanEZ21qwrCw35',
-]
-let consoleSignatureShown = false
-
-function OutboundLink({ href, className, children, ...props }) {
-  const external = href.startsWith('http')
-  return <a href={href} className={className} {...(external ? { target: '_blank', rel: 'noreferrer' } : {})} {...props}>{children}</a>
-}
+function OutboundLink({ href, className, children, ...props }) { return <a href={href} className={className} target="_blank" rel="noreferrer" {...props}>{children}</a> }
+function formatTime(seconds) { if (!Number.isFinite(seconds)) return '00:00'; return `${Math.floor(seconds / 60).toString().padStart(2, '0')}:${Math.floor(seconds % 60).toString().padStart(2, '0')}` }
 
 export default function App() {
   const [scrolled, setScrolled] = useState(false)
-  const [activeNav, setActiveNav] = useState(null)
+  const [activeNav, setActiveNav] = useState('lancamento')
   const [beatPlaying, setBeatPlaying] = useState(false)
   const [beatIndex, setBeatIndex] = useState(0)
-  const [footerOffset, setFooterOffset] = useState(0)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const [volume, setVolume] = useState(.8)
   const carouselRef = useRef(null)
   const beatAudioRef = useRef(null)
-  const footerRef = useRef(null)
-  const currentBeat = beatTracks[beatIndex] ?? null
+  const currentBeat = beatTracks[beatIndex]
 
+  useEffect(() => { const onScroll = () => setScrolled(window.scrollY > 48); onScroll(); window.addEventListener('scroll', onScroll, { passive: true }); return () => window.removeEventListener('scroll', onScroll) }, [])
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 80)
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    const ids = ['lancamento', 'discografia', 'video', 'links', 'sobre']
+    const update = () => { const line = window.innerHeight * .38; const id = ids.find((item) => { const section = document.getElementById(item); if (!section) return false; const { top, bottom } = section.getBoundingClientRect(); return top <= line && bottom > line }); if (id) setActiveNav(id) }
+    update(); window.addEventListener('scroll', update, { passive: true }); window.addEventListener('resize', update); return () => { window.removeEventListener('scroll', update); window.removeEventListener('resize', update) }
   }, [])
-
-  useEffect(() => {
-    const sectionIds = ['sobre', 'links', 'sons', 'discografia']
-    const updateActiveNav = () => {
-      const readingLine = window.innerHeight * .35
-      const activeId = sectionIds.find((id) => {
-        const section = document.getElementById(id)
-        if (!section) return false
-        const { top, bottom } = section.getBoundingClientRect()
-        return top <= readingLine && bottom > readingLine
-      }) ?? null
-      setActiveNav(activeId)
-    }
-    updateActiveNav()
-    window.addEventListener('scroll', updateActiveNav, { passive: true })
-    window.addEventListener('resize', updateActiveNav)
-    return () => {
-      window.removeEventListener('scroll', updateActiveNav)
-      window.removeEventListener('resize', updateActiveNav)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!beatPlaying) return
-    beatAudioRef.current?.play().catch(() => setBeatPlaying(false))
-  }, [beatIndex, beatPlaying])
-
-  useEffect(() => {
-    const startBeat = (event) => {
-      if (event?.target?.closest?.('.beat-player')) return
-      beatAudioRef.current?.play().catch(() => setBeatPlaying(false))
-    }
-    startBeat()
-    window.addEventListener('pointerdown', startBeat, { once: true })
-    window.addEventListener('keydown', startBeat, { once: true })
-    return () => {
-      window.removeEventListener('pointerdown', startBeat)
-      window.removeEventListener('keydown', startBeat)
-    }
-  }, [])
-
-  useLayoutEffect(() => {
-    let animationFrame
-    const updateFooterOffset = () => {
-      if (animationFrame) return
-      animationFrame = window.requestAnimationFrame(() => {
-        const viewportHeight = window.visualViewport?.height ?? window.innerHeight
-        const footerTop = footerRef.current?.getBoundingClientRect().top ?? viewportHeight
-        setFooterOffset(Math.max(0, Math.round(viewportHeight - footerTop)))
-        animationFrame = undefined
-      })
-    }
-    updateFooterOffset()
-    window.addEventListener('scroll', updateFooterOffset, { passive: true })
-    window.addEventListener('resize', updateFooterOffset)
-    window.visualViewport?.addEventListener('resize', updateFooterOffset)
-    window.visualViewport?.addEventListener('scroll', updateFooterOffset)
-    return () => {
-      window.removeEventListener('scroll', updateFooterOffset)
-      window.removeEventListener('resize', updateFooterOffset)
-      window.visualViewport?.removeEventListener('resize', updateFooterOffset)
-      window.visualViewport?.removeEventListener('scroll', updateFooterOffset)
-      if (animationFrame) window.cancelAnimationFrame(animationFrame)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (consoleSignatureShown) return
-    consoleSignatureShown = true
-    console.info(`%c
-                    SIM, FUI EU, RICARDO LOPES, QUE CRIEI ESTE SITE.
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⣴⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣦⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣴⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣴⣾⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⢀⣴⣾⣻⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⢀⣴⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⢠⣾⣿⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀
-⠀⠀⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀
-⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣍⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀
-⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡄⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀
-⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⠙⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢿⣿⡇⢸⣿⡟⢙⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀
-⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠈⢿⣿⣾⡟⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀
-⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢁⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸⣿⣿⠇⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠀⠀
-⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⣠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀⣿⣿⡀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀
-⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⣿⣿⡇⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀
-⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⣫⣽⣿⣿⣿⡟⢸⣿⣿⣿⣶⣿⡟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀
-⠀⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⢹⣿⣿⣿⣿⣿⣿⠿⡿⠿⠿⢟⣛⣯⣥⣶⣷⣮⡛⢿⣿⣿⣿⣿⣿⣿⢻⣿⣿⠟⣊⣙⠿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀
-⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⢋⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⢻⣿⣿⣿⣿⢧⠟⣫⣶⣿⣿⣿⣿⣶⣦⣭⢡⣾⡿⠁⠀⠀⠀
-⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣮⣽⣛⣛⣿⡏⢚⣯⣭⣴⡀⠀⠀⠀⠀⠀⣦⣭⡅⣿⣿⣿⣿⡠⣾⠿⢟⣛⡛⠛⠛⠛⠛⠻⢧⢻⡇⠀⠀⠀⠀
-⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⣛⣿⣿⣷⠻⣿⣿⣿⣷⣮⣄⣈⣤⣾⣿⡟⣼⣿⣿⣿⣿⣷⡺⣿⣿⣿⣧⠀⡀⠂⠐⣸⢇⣖⡂⠀⠀⠀⠀
-⠀⠀⠀⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢻⣿⣿⣿⣿⣷⣾⣿⣿⣿⣿⣷⣍⡻⢿⣿⣿⣿⣿⣿⠟⣫⢞⣿⣿⣿⣿⣿⣿⣿⣮⠻⣿⣿⣿⣶⣶⡿⢫⣾⣿⣿⡄⠀⠀⠀
-⠀⠀⠀⠀⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢁⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣷⣶⣶⢟⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠩⣭⣭⣭⣵⣾⣿⣿⣿⣿⣇⠀⠀⠀
-⠀⠀⠀⠀⠀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⣛⣭⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣶⣭⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⠀⢼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢇⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠻⣿⣿⣿⣿⣿⣿⡇⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠛⠿⣿⣿⣿⡄⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢫⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⠸⢿⣿⣿⣿⣿⣿⣿⣿⠿⠋⠁⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣨⣦⡈⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡌⣷⢹⣿⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⡆⢠⣈⠙⠛⠿⠿⠿⠿⢻⣿⣿⣿⣿⣿⠟⡆⢿⣟⢤⣍⡻⣿⣿⣿⣿⣿⣿⣿⡇⡏⣿⣿⣿⡟⠁⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⠁⣾⣿⣿⣿⣶⣶⣶⡆⢸⣿⣿⣿⣿⡟⣾⣿⣼⣿⣦⣿⣿⣎⠻⣿⣿⣿⣿⣿⢇⣿⡸⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⣿⣿⠀⣿⣿⣿⣿⣿⣿⣿⡇⢸⣿⣿⣿⡿⣼⣿⣿⣿⣿⣿⣿⣿⣿⣷⣌⣛⣛⣩⣵⣿⣿⣷⢿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⠀⣿⣿⣿⣿⣿⣿⣿⣿⠀⣿⣿⣿⢱⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⢿⣿⠿⠿⣿⣿⣿⣿⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⡏⠀⣿⣿⣿⣿⣿⣿⣿⣿⣤⣿⣿⠏⣿⣿⣿⣿⣿⣿⡿⣫⣵⣾⣿⣶⣦⣾⣷⣌⢻⣿⣿⣾⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⣿⣿⣿⣿⣿⡇⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣸⣿⣿⣿⣿⡿⣫⣾⣿⣿⠟⢩⢿⣿⡿⠋⣿⣆⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⣿⣿⣿⣿⣿⣿⡇⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣄⢭⣽⣭⣴⣾⣮⣬⣥⣶⣷⣶⠆⣾⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣝⠿⣿⣿⣿⣿⣿⣿⡿⢋⣾⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣮⣝⣛⣛⣋⣥⣾⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⣿⣿⣿⣿⣿⣿⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⠻⢿⣿⠟⣻⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠿⣿⣿⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣉⣉⣉⡉⠛⠻⢿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀⢻⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⢸⣿⣿⣿⣿⣿⣿⡆⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸⣿⣿⣿⣿⣿⠟⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠛⠻⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠁⠈⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠛⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-
-SELO INDEPENDENTE CRIATIVO`, 'color: #72ff24; font: 700 12px/1.1 monospace;')
-  }, [])
-
-  const scrollDiscography = (direction) => {
-    const carousel = carouselRef.current
-    if (carousel) carousel.scrollBy({ left: direction * carousel.clientWidth * .82, behavior: 'smooth' })
-  }
-
-  const toggleBeat = async () => {
-    const audio = beatAudioRef.current
-    if (!audio) return
-    if (audio.paused) {
-      try { await audio.play() } catch { setBeatPlaying(false) }
-    } else audio.pause()
-  }
-
-  const changeBeat = (direction) => {
-    if (beatTracks.length === 0) return
-    if (beatTracks.length === 1) {
-      const audio = beatAudioRef.current
-      if (!audio) return
-      audio.currentTime = 0
-      audio.play().catch(() => setBeatPlaying(false))
-      return
-    }
-    setBeatPlaying(true)
-    setBeatIndex((index) => (index + direction + beatTracks.length) % beatTracks.length)
-  }
+  useEffect(() => { if (beatAudioRef.current) beatAudioRef.current.volume = volume }, [volume])
+  useEffect(() => { if (beatPlaying) beatAudioRef.current?.play().catch(() => setBeatPlaying(false)) }, [beatIndex, beatPlaying])
+  useEffect(() => { const start = (event) => { if (!event?.target?.closest?.('.beat-player')) beatAudioRef.current?.play().catch(() => setBeatPlaying(false)) }; window.addEventListener('pointerdown', start, { once: true }); window.addEventListener('keydown', start, { once: true }); return () => { window.removeEventListener('pointerdown', start); window.removeEventListener('keydown', start) } }, [])
+  const toggleBeat = async () => { const audio = beatAudioRef.current; if (!audio) return; if (audio.paused) { try { await audio.play() } catch { setBeatPlaying(false) } } else audio.pause() }
+  const changeBeat = (direction) => { setCurrentTime(0); setDuration(0); setBeatPlaying(true); setBeatIndex((index) => (index + direction + beatTracks.length) % beatTracks.length) }
+  const seek = (event) => { const time = Number(event.target.value); if (beatAudioRef.current && Number.isFinite(time)) { beatAudioRef.current.currentTime = time; setCurrentTime(time) } }
+  const scrollDiscography = (direction) => carouselRef.current?.scrollBy({ left: direction * carouselRef.current.clientWidth * .82, behavior: 'smooth' })
 
   return <>
     <div className="noise" aria-hidden="true" />
-    {currentBeat && <audio ref={beatAudioRef} src={currentBeat.src} autoPlay preload="metadata" onPlay={() => setBeatPlaying(true)} onPause={() => setBeatPlaying(false)} onEnded={() => changeBeat(1)} />}
-    <header className={`site-header ${scrolled ? 'scrolled' : ''}`} id="topo">
-      <a className="header-logo" href="#inicio" aria-label="BROCCOLICO — início">BROCCOLI CO<span>®</span></a>
-      <nav aria-label="Navegação principal"><a className={activeNav === 'sobre' ? 'is-active' : undefined} href="#sobre" aria-current={activeNav === 'sobre' ? 'page' : undefined}>SOBRE</a><a className={activeNav === 'links' ? 'is-active' : undefined} href="#links" aria-current={activeNav === 'links' ? 'page' : undefined}>LINKS</a><a className="nav-featured" href="#sons" aria-current={activeNav === 'sons' ? 'page' : undefined}>SONS</a><a className={activeNav === 'discografia' ? 'is-active' : undefined} href="#discografia" aria-current={activeNav === 'discografia' ? 'page' : undefined}>DISCOGRAFIA</a></nav>
-    </header>
-
+    <audio ref={beatAudioRef} src={currentBeat.src} preload="metadata" onPlay={() => setBeatPlaying(true)} onPause={() => setBeatPlaying(false)} onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)} onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)} onDurationChange={(event) => setDuration(event.currentTarget.duration)} onEnded={() => changeBeat(1)} />
+    <header className={`site-header ${scrolled ? 'scrolled' : ''}`} id="topo"><a className="header-logo" href="#inicio" aria-label="BROCCOLI CO. — início">BROCCOLI CO<span>®</span></a><nav aria-label="Navegação principal">{[['lancamento','LANÇAMENTO'],['discografia','DISCOGRAFIA'],['video','VÍDEO'],['links','LINKS'],['sobre','SOBRE']].map(([id,label]) => <a className={activeNav === id ? 'is-active' : undefined} href={`#${id}`} key={id}>{label}</a>)}</nav></header>
     <main>
-      <section className="hero" id="inicio" aria-labelledby="hero-title">
-        <img className="hero-mark" src={mark} alt="Marca em stencil da BROCCOLIco" />
+      <section className="hero brand-hero" id="inicio" aria-labelledby="hero-title">
+        <img className="hero-mark" src={mark} alt="Marca em stencil da BROCCOLI CO." />
         <div className="hero-copy"><p className="eyebrow hero-pill hero-pill-top">UNDERGROUND DE ORIGEM</p><h1 id="hero-title">BROCCOLI CO.</h1><p className="hero-line hero-pill hero-pill-bottom">SELO INDEPENDENTE CRIATIVO</p></div>
-        <a className="scroll-cue" href="#links" aria-label="Ir para os links">DESCE</a>
+        <a className="scroll-cue" href="#lancamento">DESCE</a>
       </section>
-
-      <section className="section about-section" id="sobre" aria-labelledby="about-title">
-        <div className="section-heading"><p className="section-index">01 / QUEM SOMOS</p><h2 id="about-title">DO<br />SUB<span>SOLO.</span></h2></div>
-        <p className="about-copy">A BROCCOLICO é um selo independente brasileiro de trap, beats e música underground. Com lançamentos como <em>Dolpe Beats Vol. 1</em>, o selo reúne artistas, produtores e a cultura independente do Brasil.</p>
+      <section className="hero release-hero" id="lancamento" aria-labelledby="release-title">
+        <img className="hero-mark" src={mark} alt="" aria-hidden="true" /><p className="hero-stamp">BROCCOLI CO. <span>INDEPENDENTE</span></p>
+        <div className="release-intro"><p className="eyebrow hero-pill hero-pill-top">01 / NOVO LANÇAMENTO</p><p className="release-project">BROCCOLI CO. APRESENTA</p><h1 id="release-title">DISCO <span>B.</span></h1><p className="release-description">Um arquivo de beats para a cidade depois da meia-noite. Volume novo, ruído de fundo e graves sem atalho.</p><div className="release-actions"><OutboundLink className="listen-cta" href={FEATURED_ALBUM_URL}>OUVIR O ÁLBUM <span>↗</span></OutboundLink><OutboundLink className="platform-link" href={SPOTIFY_ARTIST_URL}>SPOTIFY</OutboundLink><OutboundLink className="platform-link" href="https://www.youtube.com/@BROCCOLICO47">YOUTUBE</OutboundLink></div></div>
+        <div className="hero-cover-wrap"><img src={discoCover} alt="Capa do álbum Disco B da BROCCOLI CO." /><p>CAT. 001 // 2024</p></div><a className="scroll-cue" href="#discografia">VER ARQUIVO ↓</a>
       </section>
-
-      <section className="section links-section" id="links" aria-labelledby="links-title">
-        <div className="section-heading"><p className="section-index">02 / ONDE COLAR</p><h2 id="links-title">SEM<br />AT<span>A</span>LHO.</h2></div>
-        <div className="link-stack">
-          {links.map(({ number, label, href }) => <OutboundLink className="street-link" href={href} key={number}><span>{number}</span><strong>{label}</strong><b aria-hidden="true">↗</b></OutboundLink>)}
-        </div>
-        <p className="small-note">Links vivos, frequência variável.</p>
-      </section>
-
-      <section className="section sounds-section" id="sons" aria-labelledby="sounds-title">
-        <div className="record-tag">LADO B <span>///</span> SEMPRE</div>
-        <div className="section-heading sound-heading"><p className="section-index">03 / OUVIR AGORA</p><h2 id="sounds-title">BROCCOLI<br /> A <span>GANG</span>.</h2></div>
-        <div className="release-layout">
-          <div className="cover-wrap"><img src={discoCover} alt="Arte de capa do Disco B, da BROCCOLIco" /><div className="cover-label">DISCO B<br /><span>2024</span></div></div>
-          <iframe className="spotify-embed featured-album" title="Álbum em destaque da Broccolico no Spotify" src="https://open.spotify.com/embed/album/0YfaYpdPCP02wrkI6mShdC?utm_source=generator" width="100%" height="352" frameBorder="0" allowFullScreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" />
-        </div>
-        <OutboundLink className="all-tracks" href={SPOTIFY_ARTIST_URL}>ABRIR NO SPOTIFY <span>↗</span></OutboundLink>
-      </section>
-
-      <section className="section discography-section" id="discografia" aria-labelledby="discography-title">
-        <div className="discography-header"><div className="section-heading"><p className="section-index">04 / ARQUIVO</p><h2 id="discography-title">DISCO<span>GRAFIA.</span></h2></div><div className="carousel-controls"><button type="button" onClick={() => scrollDiscography(-1)} aria-label="Ver lançamentos anteriores">←</button><button type="button" onClick={() => scrollDiscography(1)} aria-label="Ver próximos lançamentos">→</button></div></div>
-        <div className="album-carousel" ref={carouselRef} aria-label="Discografia no Spotify">
-          {releases.map((albumId, index) => <iframe className="spotify-embed album-embed" key={albumId} title={`Lançamento ${index + 1} da Broccolico no Spotify`} src={`https://open.spotify.com/embed/album/${albumId}?utm_source=generator`} width="100%" height="352" frameBorder="0" allowFullScreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" />)}
-        </div>
-      </section>
+      <section className="section discography-section" id="discografia" aria-labelledby="discography-title"><div className="discography-header"><div className="section-heading"><p className="section-index">02 / ARQUIVO SONORO</p><h2 id="discography-title">DISCO<span>GRAFIA.</span></h2></div><div className="carousel-controls" aria-label="Controles da discografia"><button type="button" onClick={() => scrollDiscography(-1)} aria-label="Ver lançamentos anteriores">←</button><button type="button" onClick={() => scrollDiscography(1)} aria-label="Ver próximos lançamentos">→</button></div></div><div className="album-carousel" ref={carouselRef} aria-label="Discografia no Spotify">{releaseIds.map((id,index) => <article className="release-entry" key={id}><div className="release-meta"><span>{String(index + 1).padStart(2,'0')}</span><p><strong>{index === 0 ? 'DISCO B' : `ARQUIVO ${String(index + 1).padStart(2,'0')}`}</strong><small>BROCCOLI CO. / 2024</small></p></div><iframe className="spotify-embed album-embed" title={`Lançamento ${index + 1} da BROCCOLI CO. no Spotify`} src={`https://open.spotify.com/embed/album/${id}?utm_source=generator`} width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" /></article>)}</div></section>
+      <section className="section video-section" id="video" aria-labelledby="video-title"><div className="video-heading"><p className="section-index">03 / VÍDEO</p><h2 id="video-title">ASSISTA.</h2><p>IMAGEM EM MOVIMENTO // SEM FILTRO</p></div><div className="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/BRwSt_PLAss?list=PLM0SRGcOWtegiiPzWlJUmAjPnbE6bUoG2" title="Vídeo da BROCCOLI CO. no YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /></div><OutboundLink className="video-source" href={YOUTUBE_URL}>ABRIR NO YOUTUBE ↗</OutboundLink></section>
+      <section className="section links-section" id="links" aria-labelledby="links-title"><div className="section-heading"><p className="section-index">04 / ONDE COLAR</p><h2 id="links-title">SEM<br />AT<span>A</span>LHO.</h2></div><div className="link-stack">{links.map(([number,label,href]) => <OutboundLink className="street-link" href={href} key={number}><span>{number}</span><strong>{label}</strong><b aria-hidden="true">↗</b></OutboundLink>)}</div><p className="small-note">Links vivos, frequência variável.</p></section>
+      <section className="section about-section" id="sobre" aria-labelledby="about-title"><div className="section-heading"><p className="section-index">05 / QUEM SOMOS</p><h2 id="about-title">DO<br />SUB<span>SOLO.</span></h2></div><p className="about-copy">A BROCCOLI CO. é um selo independente brasileiro de trap, beats e música underground. Com lançamentos como <em>Disco B</em>, o selo reúne artistas, produtores e a cultura independente do Brasil.</p></section>
     </main>
-
-    <footer ref={footerRef}><a href="#inicio">BROCCOLI CO<span>®</span></a><p>O BARULHO É NOSSO.</p><p>© {new Date().getFullYear()}</p></footer>
-    <div className={`beat-player${beatPlaying ? ' is-playing' : ''}`} style={{ bottom: `calc(${footerOffset}px + env(safe-area-inset-bottom, 0px))` }} aria-label="Player de beat">
-      <div className="beat-controls"><button type="button" onClick={() => changeBeat(-1)} aria-label="Beat anterior">↶</button><button className="beat-play" type="button" onClick={toggleBeat} aria-label={beatPlaying ? 'Pausar beat' : 'Tocar beat'}>{beatPlaying ? 'Ⅱ' : '▶'}</button><button type="button" onClick={() => changeBeat(1)} aria-label="Próximo beat">↷</button></div>
-      <div className="beat-text"><p className="beat-marquee"><span><b>OUVINDO AGORA //</b> {currentBeat?.label ?? 'SEM BEAT'}</span><span aria-hidden="true"><b>OUVINDO AGORA //</b> {currentBeat?.label ?? 'SEM BEAT'}</span></p></div>
-    </div>
+    <footer><a href="#lancamento">BROCCOLI CO<span>®</span></a><p>O BARULHO É NOSSO.</p><p>© {new Date().getFullYear()}</p></footer>
+    <div className="beat-player" aria-label="Player de beats"><div className="beat-controls"><button type="button" onClick={() => changeBeat(-1)} aria-label="Faixa anterior">↶</button><button className="beat-play" type="button" onClick={toggleBeat} aria-label={beatPlaying ? 'Pausar beat' : 'Tocar beat'}>{beatPlaying ? 'Ⅱ' : '▶'}</button><button type="button" onClick={() => changeBeat(1)} aria-label="Próxima faixa">↷</button></div><div className="beat-info"><p><b>OUVINDO AGORA //</b> {currentBeat.label} <span>— {currentBeat.artist}</span></p><div className="beat-progress"><time>{formatTime(currentTime)}</time><input type="range" min="0" max={duration || 0} value={Math.min(currentTime,duration || 0)} step="0.1" onChange={seek} aria-label="Progresso da faixa" style={{ '--progress': `${duration ? (currentTime / duration) * 100 : 0}%` }} /><time>{formatTime(duration)}</time></div></div><label className="volume-control"><span>VOL</span><input type="range" min="0" max="1" step="0.01" value={volume} onChange={(event) => setVolume(Number(event.target.value))} aria-label="Volume" style={{ '--progress': `${volume * 100}%` }} /></label></div>
   </>
 }

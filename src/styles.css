@@ -1,1 +1,25 @@
 @import url('../style.css');
+
+/* Os controles são instrumentos, não a própria barra: quadrados e centralizados. */
+.beat-controls { align-self: center; height: 48px; }
+.beat-controls button { height: 48px; }
+
+.about-section h2 { font-size: clamp(3.35rem, 6.7vw, 5.75rem); }
+
+/* A primeira dobra mantém a composição original da marca. */
+.brand-hero { display: grid; place-items: center; min-height: 100svh; padding: 7rem 1.25rem 3rem; }
+.brand-hero::before { content: ""; position: absolute; inset: 0; z-index: -2; background: radial-gradient(ellipse at 50% 46%, rgba(114, 255, 36, .08), transparent 31%), radial-gradient(ellipse at 50% 48%, #0a0d0a 0%, #030403 55%, #000 100%); }
+.brand-hero .hero-mark { width: min(68vw, 570px); aspect-ratio: 1; right: auto; top: auto; object-fit: cover; opacity: .45; filter: contrast(1.35) grayscale(1); transform: rotate(-10deg); -webkit-mask-image: radial-gradient(ellipse at center, #000 38%, rgba(0, 0, 0, .94) 48%, rgba(0, 0, 0, .55) 64%, transparent 82%); mask-image: radial-gradient(ellipse at center, #000 38%, rgba(0, 0, 0, .94) 48%, rgba(0, 0, 0, .55) 64%, transparent 82%); }
+.brand-hero .hero-copy { position: relative; text-align: center; text-shadow: 0 2px 16px #000; transform: translateY(clamp(-4.5rem, -8vh, -2.5rem)); }
+.brand-hero .hero-pill { margin-inline: auto; }
+.brand-hero h1 { margin: 0; font: 400 clamp(4.8rem, 13vw, 10rem) /.82 var(--display); letter-spacing: .015em; }
+.brand-hero .hero-pill-bottom { margin-top: 1.2rem; color: var(--paper); border-color: rgba(228, 229, 220, .75); background: rgba(7, 9, 7, .72); transform: rotate(1.2deg); }
+
+@media (max-width: 700px) {
+  .beat-controls { height: 42px; }
+  .beat-controls button { height: 42px; }
+  .about-section h2 { font-size: min(12vw, 4rem); }
+  .brand-hero .hero-mark { width: 90vw; }
+  .brand-hero .hero-copy { transform: translateY(-1.5rem); }
+  .brand-hero h1 { font-size: min(10vw, 5rem); line-height: .9; }
+}

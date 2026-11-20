@@ -17,6 +17,7 @@ const SPOTIFY_ARTIST_URL = 'https://open.spotify.com/intl-pt/artist/5YDfo3roAlk7
 const FEATURED_ALBUM_URL = 'https://open.spotify.com/intl-pt/album/0YfaYpdPCP02wrkI6mShdC'
 const FEATURED_YOUTUBE_URL = 'https://www.youtube.com/watch?v=jKMhRhrmNLA&list=OLAK5uy_mr0JPBvrZ64hZEfSswwTncynXhmPihc7o'
 const YOUTUBE_URL = 'https://www.youtube.com/watch?v=BRwSt_PLAss&list=PLM0SRGcOWtegiiPzWlJUmAjPnbE6bUoG2'
+const ORGANISM_URL = 'https://totallylegalco.github.io/#anomalias'
 const releaseIds = ['0YfaYpdPCP02wrkI6mShdC','6waxAD6jAFWKOWnNKSzyRR','36PP4oGai0dG3FIYwktztD','3XM09swHSuGqAdK1NYIgB0','4QrWj3L9sT6mMnHWiNfhtA','05eJWrLT4x6uHbtCTAZ9jp','5yM8MXnmLIircYQEeYDS21','3udyEGvRkYErjxLCUKiZov','09cgvP9d1TnIbEAGSlfez9','0ld7kRLqgB728gSzhQLnOs','1JE5vo8F7mokWJMY2Vnv8b','7elfYtB38oVusRDisZmhhW','62BVR0afdevkqP75wW2u8k','2g0YN8ObthoEwhws6jdFwZ','6egpAfGjyWOjO863ZEepki','1mrtRVdOxcMmaPdDGh7pby','29rAd6zBGFFCV4WTWMvh8E','2qAZIRxBlKvQuygTdJPKha','2PBjtHjI4sMoSRXLKA4w08','3J5EOpy9xiLyY0tDyJVkjw','1pyoGfa9i3hTWpCj4HpyuL','531Qr2UNGDMwQEar1HgSpm','2MiTw6q1aJGWk0X3nu0tHR','7uUrrSJavUoawPsDsjhfxw','08k4JC2ukanEZ21qwrCw35']
 const beatTracks = [
   [dolpeBeatNo5, 'Dolpe: Beat, No. 5'], [dolpeBeatNo1, 'Dolpe: Beat, No. 1 in G# Minor'], [dolpeBeatNo10, 'Dolpe: Beat, No. 10'], [dolpeBeatEbMinor, 'Dolpe: Beat in E♭ Minor'], [dolpeBeatNo2CSharpMinor, 'Dolpe: Beat, No. 2 in C# Minor'], [dolpeBeatBMinor, 'Dolpe: Beat in B Minor'], [dolpeBeatNo4CSharpMinor, 'Dolpe: Beat, No. 4 in C# Minor'], [dolpeBeatBbMinor, 'Dolpe: Beat in B♭ Minor'], [dolpeBeatFMinor, 'Dolpe: Beat in F Minor'], [dolpeBeatNo2BMinor, 'Dolpe: Beat, No. 2 in B Minor'], [dolpeBeatAMinor, 'Dolpe: Beat in A Minor'],
@@ -36,6 +37,7 @@ export default function App() {
   const [duration, setDuration] = useState(0)
   const [volume, setVolume] = useState(.8)
   const [releaseFlipped, setReleaseFlipped] = useState(false)
+  const [containmentBreach, setContainmentBreach] = useState(false)
   const carouselRef = useRef(null)
   const beatAudioRef = useRef(null)
   const currentBeat = beatTracks[beatIndex]
@@ -55,11 +57,18 @@ export default function App() {
   const scrollDiscography = (direction) => carouselRef.current?.scrollBy({ left: direction * carouselRef.current.clientWidth * .82, behavior: 'smooth' })
   const toggleReleaseDetails = () => setReleaseFlipped((flipped) => !flipped)
   const handleReleaseKeyDown = (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggleReleaseDetails() } }
+  const enterOrganism = (event) => {
+    event.preventDefault()
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    setContainmentBreach(true)
+    window.setTimeout(() => window.location.assign(ORGANISM_URL), prefersReducedMotion ? 180 : 520)
+  }
 
   return <>
     <div className="noise" aria-hidden="true" />
     <audio ref={beatAudioRef} src={currentBeat.src} preload="metadata" onPlay={() => setBeatPlaying(true)} onPause={() => setBeatPlaying(false)} onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)} onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)} onDurationChange={(event) => setDuration(event.currentTarget.duration)} onEnded={() => changeBeat(1)} />
-    <header className={`site-header ${scrolled ? 'scrolled' : ''}`} id="topo"><a className="header-logo" href="#inicio" aria-label="BROCCOLI CO. — início">BROCCOLI CO<span>®</span></a><nav aria-label="Navegação principal">{[['lancamento','LANÇAMENTO'],['discografia','DISCOGRAFIA'],['video','VÍDEO'],['links','LINKS'],['sobre','SOBRE']].map(([id,label]) => <a className={activeNav === id ? 'is-active' : undefined} href={`#${id}`} key={id}>{label}</a>)}</nav></header>
+    <header className={`site-header ${scrolled ? 'scrolled' : ''}`} id="topo"><a className="header-logo" href="#inicio" aria-label="BROCCOLI CO. — início">BROCCOLI CO<span>®</span></a><nav aria-label="Navegação principal">{[['lancamento','LANÇAMENTO'],['discografia','DISCOGRAFIA'],['video','VÍDEO'],['links','LINKS'],['sobre','SOBRE']].map(([id,label]) => <a className={activeNav === id ? 'is-active' : undefined} href={`#${id}`} key={id}>{label}</a>)}<a className="restricted-link" href={ORGANISM_URL} onClick={enterOrganism} data-text="NÃO ENTRE" aria-label="NÃO ENTRE. Acessar BROCCOLI — Organismo"><span className="danger-indicator" aria-hidden="true" />NÃO ENTRE<span className="warning-tooltip" aria-hidden="true">AVISO: ESTE ACESSO NÃO É RECOMENDADO.</span></a></nav></header>
+    {containmentBreach && <div className="containment-screen" role="status" aria-live="assertive"><span>PROTOCOLO DE CONTENÇÃO VIOLADO</span></div>}
     <main>
       <section className="hero brand-hero" id="inicio" aria-labelledby="hero-title">
         <img className="hero-mark" src={mark} alt="Marca em stencil da BROCCOLI CO." />

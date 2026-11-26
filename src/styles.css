@@ -6,7 +6,7 @@
 
 .about-section h2 { font-size: clamp(3.35rem, 6.7vw, 5.75rem); }
 .about-copy .about-kicker { margin: 0 0 1.3rem; color: var(--muted); font: .66rem / 1.7 var(--mono); letter-spacing: .09em; text-transform: uppercase; }
-.about-copy .about-manifesto { margin: 0 0 1.7rem; font: 400 clamp(2.5rem, 5.2vw, 5rem) /.88 var(--display); letter-spacing: .01em; text-transform: uppercase; }
+.about-copy .about-manifesto { margin: 0 0 1.7rem; font: 400 clamp(2.2rem, 4.5vw, 4.3rem) /.9 var(--display); letter-spacing: .01em; text-transform: uppercase; }
 .about-copy .about-manifesto em { display: inline-block; margin-top: .12em; color: var(--acid); }
 .about-copy > p:last-child { margin: 0; font: clamp(.9rem, 1.4vw, 1.1rem) / 1.65 var(--mono); letter-spacing: .01em; }
 
@@ -40,7 +40,7 @@
   .beat-controls { height: 42px; }
   .beat-controls button { height: 42px; }
   .about-section h2 { font-size: min(12vw, 4rem); }
-  .about-copy .about-manifesto { font-size: clamp(2.5rem, 12vw, 4rem); }
+  .about-copy .about-manifesto { font-size: clamp(2.1rem, 10.5vw, 3.5rem); }
   .brand-hero .hero-mark { width: 90vw; }
   .brand-hero .hero-copy { transform: translateY(-1.5rem); }
   .brand-hero h1 { font-size: min(10vw, 5rem); line-height: .9; }

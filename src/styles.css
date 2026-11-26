@@ -5,6 +5,10 @@
 .beat-controls button { height: 48px; }
 
 .about-section h2 { font-size: clamp(3.35rem, 6.7vw, 5.75rem); }
+.about-copy .about-kicker { margin: 0 0 1.3rem; color: var(--muted); font: .66rem / 1.7 var(--mono); letter-spacing: .09em; text-transform: uppercase; }
+.about-copy .about-manifesto { margin: 0 0 1.7rem; font: 400 clamp(2.5rem, 5.2vw, 5rem) /.88 var(--display); letter-spacing: .01em; text-transform: uppercase; }
+.about-copy .about-manifesto em { display: inline-block; margin-top: .12em; color: var(--acid); }
+.about-copy > p:last-child { margin: 0; font: clamp(.9rem, 1.4vw, 1.1rem) / 1.65 var(--mono); letter-spacing: .01em; }
 
 /* A primeira dobra mantém a composição original da marca. */
 .brand-hero { display: grid; place-items: center; min-height: 100svh; padding: 7rem 1.25rem 3rem; }
@@ -12,7 +16,7 @@
 .brand-hero .hero-mark { width: min(68vw, 570px); aspect-ratio: 1; right: auto; top: auto; object-fit: cover; opacity: .45; filter: contrast(1.35) grayscale(1); transform: rotate(-10deg); -webkit-mask-image: radial-gradient(ellipse at center, #000 38%, rgba(0, 0, 0, .94) 48%, rgba(0, 0, 0, .55) 64%, transparent 82%); mask-image: radial-gradient(ellipse at center, #000 38%, rgba(0, 0, 0, .94) 48%, rgba(0, 0, 0, .55) 64%, transparent 82%); }
 .brand-hero .hero-copy { position: relative; text-align: center; text-shadow: 0 2px 16px #000; transform: translateY(clamp(-4.5rem, -8vh, -2.5rem)); }
 .brand-hero .hero-pill { margin-inline: auto; }
-.brand-hero h1 { margin: 0; font: 400 clamp(4.8rem, 13vw, 10rem) /.82 var(--display); letter-spacing: .015em; }
+.brand-hero h1 { margin: 0; font: 400 clamp(4.8rem, 13vw, 10rem) /.82 "Old London Alternate", var(--display); letter-spacing: .015em; }
 .brand-hero .hero-pill-bottom { margin-top: 1.2rem; color: var(--paper); border-color: rgba(228, 229, 220, .75); background: rgba(7, 9, 7, .72); transform: rotate(1.2deg); }
 
 .release-flip { width: min(100%, 500px); aspect-ratio: 1; cursor: pointer; perspective: 1500px; box-shadow: none; }
@@ -36,6 +40,7 @@
   .beat-controls { height: 42px; }
   .beat-controls button { height: 42px; }
   .about-section h2 { font-size: min(12vw, 4rem); }
+  .about-copy .about-manifesto { font-size: clamp(2.5rem, 12vw, 4rem); }
   .brand-hero .hero-mark { width: 90vw; }
   .brand-hero .hero-copy { transform: translateY(-1.5rem); }
   .brand-hero h1 { font-size: min(10vw, 5rem); line-height: .9; }
@@ -43,22 +48,3 @@
   .release-back-copy { padding: 1.1rem 1rem 2.1rem; }
   .release-back-copy p { font-size: .62rem; }
 }
-
-nav .restricted-link { position: relative; display: inline-flex; align-items: center; gap: .48rem; overflow: visible; padding: .5rem .68rem; border: 1px solid #a33a36; color: #ff7770; background: rgba(83, 13, 15, .42); font-family: var(--mono); font-size: .62rem; font-weight: 500; letter-spacing: .08em; white-space: nowrap; box-shadow: inset 0 0 12px rgba(170, 25, 25, .1); transition: background .18s, color .18s, border-color .18s, box-shadow .18s; }
-nav .restricted-link:hover, nav .restricted-link:focus-visible { color: #fff; background: #781d20; border-color: #ff7770; box-shadow: 0 0 14px rgba(208, 39, 39, .24); }
-.danger-indicator { width: 7px; height: 7px; flex: 0 0 7px; border-radius: 50%; background: #ff514a; box-shadow: 0 0 8px rgba(255, 81, 74, .8); animation: danger-pulse 1.35s steps(2, end) infinite; }
-.restricted-link::before, .restricted-link::after { position: absolute; inset: 0; display: grid; place-items: center; content: attr(data-text); opacity: 0; pointer-events: none; }
-.restricted-link::before { color: #ff8580; text-shadow: 1px 0 #70ffdc; clip-path: inset(20% 0 58%); }
-.restricted-link::after { color: #fff; text-shadow: -1px 0 #ff3434; clip-path: inset(63% 0 12%); }
-.restricted-link:hover::before, .restricted-link:focus-visible::before { animation: button-glitch-top .34s steps(2, end) 2; }
-.restricted-link:hover::after, .restricted-link:focus-visible::after { animation: button-glitch-bottom .3s steps(2, end) 2; }
-.warning-tooltip { position: fixed; z-index: 60; top: 74px; right: clamp(1rem, 4vw, 4.5rem); max-width: calc(100vw - 2rem); padding: .65rem .8rem; border: 1px solid #a33a36; color: #ffd9d7; background: #28090a; font: 500 .61rem / 1.5 var(--mono); letter-spacing: .07em; box-shadow: 0 8px 28px #0009; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .15s, transform .15s, visibility .15s; pointer-events: none; }
-.restricted-link:hover .warning-tooltip, .restricted-link:focus-visible .warning-tooltip { opacity: 1; visibility: visible; transform: translateY(0); }
-.containment-screen { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 1.5rem; color: #ffe2df; background: rgba(28, 3, 5, .94); font: 500 clamp(.85rem, 3vw, 1.3rem) / 1.5 var(--mono); letter-spacing: .12em; text-align: center; animation: containment-flash .52s steps(2, end) both; }
-.containment-screen span { padding: 1.25rem; border: 1px solid #ff514a; box-shadow: 0 0 32px rgba(255, 31, 31, .25); }
-@keyframes danger-pulse { 50% { opacity: .3; box-shadow: 0 0 2px rgba(255, 81, 74, .4); } }
-@keyframes button-glitch-top { 0%, 100% { opacity: 0; transform: translateX(0); } 20%, 65% { opacity: .9; transform: translateX(2px); } 45% { opacity: .75; transform: translateX(-2px); } }
-@keyframes button-glitch-bottom { 0%, 100% { opacity: 0; transform: translateX(0); } 25%, 70% { opacity: .85; transform: translateX(-2px); } 50% { opacity: .8; transform: translateX(2px); } }
-@keyframes containment-flash { 0% { opacity: 0; filter: brightness(2); } 18% { opacity: 1; transform: translateX(3px); } 36% { opacity: .6; transform: translateX(-2px); } 54% { opacity: 1; transform: translateX(0); } 100% { opacity: 1; filter: none; } }
-@media (max-width: 700px) { .warning-tooltip { top: 57px; right: 1rem; } nav .restricted-link { min-height: 32px; } }
-@media (prefers-reduced-motion: reduce) { .danger-indicator { animation: none; } .restricted-link:hover::before, .restricted-link:hover::after, .restricted-link:focus-visible::before, .restricted-link:focus-visible::after { animation: none; } .containment-screen { animation: none; } }

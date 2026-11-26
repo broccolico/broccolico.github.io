@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import mark from '../assets/broccolico-mark.png'
+import mark from '../assets/broccoli-circular-acid.jpeg'
 import discoCover from '../assets/WhatsApp Image 2026-09-11 at 13.46.17.jpeg'
 import dolpeBeatNo1 from '../assets/09-09-beat-g-minor.mp3'
 import dolpeBeatNo5 from '../assets/22-08 beat 5.mp3'
